@@ -13,8 +13,7 @@ import { LoginOauthComponent } from '../login-oauth/login-oauth.component';
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule,
-    LoginOauthComponent,
+    RouterModule,  LoginOauthComponent,
     DxFormModule,
     DxLoadIndicatorModule,
     DxButtonModule,

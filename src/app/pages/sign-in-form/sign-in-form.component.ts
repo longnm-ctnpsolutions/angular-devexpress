@@ -5,7 +5,7 @@ import { LoginFormComponent ,CardAuthComponent} from '../../components';
 
 @Component({
   selector: 'app-sign-in-form',
-    imports: [
+  imports: [
     CommonModule,
     LoginFormComponent,
     CardAuthComponent,

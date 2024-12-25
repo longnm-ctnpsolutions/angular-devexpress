@@ -80,4 +80,4 @@ export const routes: Routes = [
   },
 ];
 
-export const appRouterProviders = provideRouter(routes, withHashLocation());
+export const appRouterProviders = [provideRouter(routes, withHashLocation()), AuthGuardService];

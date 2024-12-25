@@ -5,6 +5,6 @@ import themes from 'devextreme/ui/themes';
 
 
 themes.initialized(() => {
-bootstrapApplication(AppComponent, appConfig)
+  bootstrapApplication(AppComponent, appConfig)
   .catch((err) => console.error(err));
-});
+  });

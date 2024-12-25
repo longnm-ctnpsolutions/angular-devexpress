@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, HostBinding, OnDestroy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { AppInfoService, AuthService, ScreenService, ThemeService } from './services';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +8,24 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
-  title = 'angular-devexpress';
+export class AppComponent implements OnDestroy {
+  @HostBinding('class') get getClass() {
+    return Object.keys(this.screen.sizes).filter((cl) => this.screen.sizes[cl]).join(' ');
+  }
+
+  constructor(private authService: AuthService,
+              private themeService: ThemeService,
+              private screen: ScreenService,
+              public appInfo: AppInfoService) {
+    themeService.setAppTheme();
+  }
+
+  isAuthenticated() {
+    return this.authService.loggedIn;
+  }
+
+  ngOnDestroy(): void {
+    this.screen.breakpointSubscription.unsubscribe();
+  }
 }
+
