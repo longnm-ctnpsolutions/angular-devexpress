@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DxButtonModule } from 'devextreme-angular';
-import { ThemeService } from '../../../../services';
+import { ThemeService } from '../../../services';
 
 @Component({
   selector: 'theme-switcher',

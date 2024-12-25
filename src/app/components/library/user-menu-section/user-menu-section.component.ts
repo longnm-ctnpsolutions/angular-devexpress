@@ -2,7 +2,7 @@ import { Component, NgModule, Input, ViewChild, ElementRef } from '@angular/core
 import { CommonModule } from '@angular/common';
 
 import { DxListModule, DxListTypes } from 'devextreme-angular/ui/list';
-import { IUser } from '../../../../services';
+import { IUser } from '../../../services';
 
 @Component({
   selector: 'user-menu-section',

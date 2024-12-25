@@ -2,7 +2,7 @@ import { Component, NgModule, Input, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DxDropDownButtonModule } from 'devextreme-angular/ui/drop-down-button';
-import { IUser } from '../../../../services';
+import { IUser } from '../../../services';
 import { UserMenuSectionComponent } from '../user-menu-section/user-menu-section.component';
 @Component({
   selector: 'user-panel',

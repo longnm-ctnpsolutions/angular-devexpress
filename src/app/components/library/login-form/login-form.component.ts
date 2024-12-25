@@ -5,7 +5,7 @@ import { DxFormModule } from 'devextreme-angular/ui/form';
 import { DxLoadIndicatorModule } from 'devextreme-angular/ui/load-indicator';
 import { DxButtonModule, DxButtonTypes } from 'devextreme-angular/ui/button';
 import notify from 'devextreme/ui/notify';
-import { AuthService, IResponse, ThemeService } from '../../../../services';
+import { AuthService, IResponse, ThemeService } from '../../../services';
 import { LoginOauthComponent } from '../login-oauth/login-oauth.component';
 
 @Component({

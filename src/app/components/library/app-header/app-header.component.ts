@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 
 import { DxButtonModule } from 'devextreme-angular/ui/button';
 import { DxToolbarModule } from 'devextreme-angular/ui/toolbar';
-import { AuthService, IUser } from '../../../../services';
+import { AuthService, IUser } from '../../../services';
 import { ThemeSwitcherComponent } from '../theme-switcher/theme-switcher.component';
 import { UserPanelComponent } from '../user-panel/user-panel.component';
 

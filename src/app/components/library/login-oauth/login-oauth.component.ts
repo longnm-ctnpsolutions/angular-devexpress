@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DxButtonModule, DxButtonTypes } from 'devextreme-angular/ui/button';
-import { ThemeService } from '../../../../services';
+import { ThemeService } from '../../../services';
 
 @Component({
   selector: 'app-login-oauth',

@@ -12,8 +12,8 @@ import { CommonModule } from '@angular/common';
 
 import { Router, RouterModule, NavigationEnd, Event } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ScreenService } from '../../../services/screen.service';
-import { AppInfoService } from '../../../services/app-info.service';
+import { ScreenService } from '../../services/screen.service';
+import { AppInfoService } from '../../services/app-info.service';
 import { AppFooterComponent, AppHeaderComponent, SideNavigationMenuComponent } from '../../components';
 
 @Component({
