@@ -2,8 +2,10 @@ export * from './library/app-footer/app-footer.component';
 export * from './library/app-header/app-header.component';
 export * from './library/card-auth/card-auth.component';
 export * from './library/create-account-form/create-account-form.component';
+export * from './library/change-password-form/change-password-form.component';
 export * from './library/login-form/login-form.component'
 export * from './library/login-oauth/login-oauth.component'
+export * from './library/reset-password-form/reset-password-form.component'
 export * from './library/side-navigation-menu/side-navigation-menu.component'
 export * from './library/theme-switcher/theme-switcher.component';
 export * from './library/user-menu-section/user-menu-section.component';

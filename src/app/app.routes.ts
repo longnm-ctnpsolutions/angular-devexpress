@@ -1,10 +1,10 @@
 import { provideRouter, Routes, withHashLocation } from '@angular/router';
 import { AuthGuardService } from './services/auth.service';
-import { LoginFormComponent } from './components/library/login-form/login-form.component';
 import { SideNavOuterToolbarComponent, UnauthenticatedContentComponent } from './layouts';
-import { CreateAccountFormComponent } from './components';
+import { CreateAccountFormComponent, ResetPasswordFormComponent, LoginFormComponent, ChangePasswordFormComponent } from './components';
 import { AppSignUpComponent } from './pages/sign-up-form/sign-up-form.component';
 import { AppSignInComponent } from './pages/sign-in-form/sign-in-form.component';
+import { AppResetPasswordComponent } from './pages/reset-password-form/reset-password-form.component';
 
 export const routes: Routes = [
   {
@@ -16,21 +16,21 @@ export const routes: Routes = [
         component: LoginFormComponent,
         canActivate: [AuthGuardService],
       },
-      // {
-      //   path: 'reset-password',
-      //   component: ResetPasswordFormComponent,
-      //   canActivate: [AuthGuardService],
-      // },
+      {
+        path: 'reset-password',
+        component: ResetPasswordFormComponent,
+        canActivate: [AuthGuardService],
+      },
       {
         path: 'create-account',
         component: CreateAccountFormComponent,
         canActivate: [AuthGuardService],
       },
-      // {
-      //   path: 'change-password/:recoveryCode',
-      //   component: ChangePasswordFormComponent,
-      //   canActivate: [AuthGuardService],
-      // },
+      {
+        path: 'change-password/:recoveryCode',
+        component: ChangePasswordFormComponent,
+        canActivate: [AuthGuardService],
+      },
       {
         path: '**',
         redirectTo: 'login',
@@ -62,11 +62,11 @@ export const routes: Routes = [
         component: AppSignUpComponent,
         canActivate: [AuthGuardService],
       },
-      // {
-      //   path: 'reset-password-form',
-      //   component: AppResetPasswordComponent,
-      //   canActivate: [AuthGuardService],
-      // },
+      {
+        path: 'reset-password-form',
+        component: AppResetPasswordComponent,
+        canActivate: [AuthGuardService],
+      },
       // {
       //   path: 'user-profile',
       //   component: UserProfileComponent
