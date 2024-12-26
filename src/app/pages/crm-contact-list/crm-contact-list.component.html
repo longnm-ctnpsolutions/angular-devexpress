@@ -11,6 +11,13 @@
     (onRowClick)="rowClick($event)"
     (onExporting)="onExporting($event)"
   >
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-pager
+      [visible]="true"
+      [showPageSizeSelector]="false"
+      [showInfo]="true"
+      [showNavigationButtons]="true"
+    ></dxo-pager>
     <dxo-load-panel [showPane]="false"></dxo-load-panel>
     <dxo-scrolling mode="virtual"></dxo-scrolling>
     <dxo-selection
@@ -156,7 +163,11 @@
   >
   </contact-panel>
 
-  <form-popup [(visible)]="isAddContactPopupOpened" (save)= "onClickSaveNewContact()" titleText="New Contact">
+  <form-popup
+    [(visible)]="isAddContactPopupOpened"
+    (save)="onClickSaveNewContact()"
+    titleText="New Contact"
+  >
     <contact-new-form></contact-new-form>
   </form-popup>
 </div>

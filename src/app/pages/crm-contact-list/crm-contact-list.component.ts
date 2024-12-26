@@ -1,6 +1,4 @@
-import {
-  Component, ViewChild, NgModule,
-} from '@angular/core';
+import { Component, ViewChild, NgModule } from '@angular/core';
 import {
   DxButtonModule,
   DxDataGridModule,
@@ -18,8 +16,14 @@ import { CommonModule } from '@angular/common';
 import { Workbook } from 'exceljs';
 import { saveAs } from 'file-saver-es';
 import { jsPDF } from 'jspdf';
-import notify from "devextreme/ui/notify";
-import { CardActivitiesComponent, ContactNewFormComponent, ContactPanelComponent, ContactStatusComponent, FormPopupComponent } from '../../components';
+import notify from 'devextreme/ui/notify';
+import {
+  CardActivitiesComponent,
+  ContactNewFormComponent,
+  ContactPanelComponent,
+  ContactStatusComponent,
+  FormPopupComponent,
+} from '../../components';
 import { Contact, ContactStatus, contactStatusList } from '../../types/contact';
 import { formatPhone } from '../../pipes/phone.pipe';
 import { DataService } from '../../services';
@@ -29,7 +33,7 @@ type FilterContactStatus = ContactStatus | 'All';
 @Component({
   templateUrl: './crm-contact-list.component.html',
   standalone: true,
-    imports: [
+  imports: [
     DxButtonModule,
     DxDataGridModule,
     DxDropDownButtonModule,
@@ -47,7 +51,8 @@ type FilterContactStatus = ContactStatus | 'All';
   providers: [DataService],
 })
 export class CrmContactListComponent {
-  @ViewChild(DxDataGridComponent, { static: true }) dataGrid!: DxDataGridComponent;
+  @ViewChild(DxDataGridComponent, { static: true })
+  dataGrid!: DxDataGridComponent;
 
   @ViewChild(ContactNewFormComponent, { static: false })
   contactNewForm!: ContactNewFormComponent;
@@ -64,21 +69,20 @@ export class CrmContactListComponent {
 
   dataSource = new DataSource<Contact[], string>({
     key: 'id',
-    load: () => new Promise((resolve, reject) => {
-      this.service.getContacts().subscribe({
+    load: () =>
+      new Promise((resolve, reject) => {
+        this.service.getContacts().subscribe({
           next: (data: Contact[]) => resolve(data),
-          error: ({message}) => reject(message)
-        })
-    }),
+          error: ({ message }) => reject(message),
+        });
+      }),
   });
 
-  constructor(private service: DataService) {
-    console.log('CrmContactListComponent initialized!');
-  }
+  constructor(private service: DataService) {}
 
   addContact() {
     this.isAddContactPopupOpened = true;
-  };
+  }
 
   refresh = () => {
     this.dataGrid.instance.refresh();
@@ -111,7 +115,8 @@ export class CrmContactListComponent {
     }
   };
 
-  customizePhoneCell = ({ value }:{value : string | number }) => value ? formatPhone(value) : undefined;
+  customizePhoneCell = ({ value }: { value: string | number }) =>
+    value ? formatPhone(value) : undefined;
 
   onExporting(e: any) {
     if (e.format === 'pdf') {
@@ -132,7 +137,10 @@ export class CrmContactListComponent {
         autoFilterEnabled: true,
       }).then(() => {
         workbook.xlsx.writeBuffer().then((buffer) => {
-          saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Contacts.xlsx');
+          saveAs(
+            new Blob([buffer], { type: 'application/octet-stream' }),
+            'Contacts.xlsx'
+          );
         });
       });
       e.cancel = true;
@@ -140,12 +148,13 @@ export class CrmContactListComponent {
   }
 
   onClickSaveNewContact = () => {
-    const { firstName, lastName} = this.contactNewForm.getNewContactData();
-    notify({
+    const { firstName, lastName } = this.contactNewForm.getNewContactData();
+    notify(
+      {
         message: `New contact "${firstName} ${lastName}" saved`,
-        position: { at: 'bottom center', my: 'bottom center' }
+        position: { at: 'bottom center', my: 'bottom center' },
       },
-      'success');
+      'success'
+    );
   };
 }
-

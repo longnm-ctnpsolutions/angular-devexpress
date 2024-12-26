@@ -3,11 +3,11 @@ export * from './library/app-header/app-header.component';
 export * from './library/card-auth/card-auth.component';
 export * from './library/create-account-form/create-account-form.component';
 export * from './library/change-password-form/change-password-form.component';
-export * from './library/login-form/login-form.component'
-export * from './library/login-oauth/login-oauth.component'
-export * from './library/reset-password-form/reset-password-form.component'
-export * from './library/status-select-box/status-select-box.component'
-export * from './library/side-navigation-menu/side-navigation-menu.component'
+export * from './library/login-form/login-form.component';
+export * from './library/login-oauth/login-oauth.component';
+export * from './library/reset-password-form/reset-password-form.component';
+export * from './library/status-select-box/status-select-box.component';
+export * from './library/side-navigation-menu/side-navigation-menu.component';
 export * from './library/theme-switcher/theme-switcher.component';
 export * from './library/user-menu-section/user-menu-section.component';
 export * from './library/user-panel/user-panel.component';
@@ -19,16 +19,18 @@ export * from './library/contact-new-form/contact-new-form.component';
 export * from './library/card-activities/card-activities.component';
 export * from './library/contact-panel/contact-panel.component';
 export * from './library/card-menu/card-menu.component';
-
-
-
-
-
+export * from './library/contact-form/contact-form.component';
+export * from './library/user-avatar/user-avatar.component';
 
 export * from './utils/form-textbox/form-textbox.component';
 export * from './utils/form-popup/form-popup.component';
 export * from './utils/form-photo/form-photo.component';
 export * from './utils/contact-status/contact-status.component';
 export * from './utils/form-photo-uploader/form-photo-uploader.component';
-
-
+export * from './utils/card-messages/card-messages.component';
+export * from './utils/card-notes/card-notes.component';
+export * from './utils/card-opportunities/card-opportunities.component';
+export * from './utils/card-tasks/card-tasks.component';
+export * from './utils/contact-cards/contact-cards.component';
+export * from './utils/opportunity-tile/opportunity-tile.component';
+export * from './utils/toolbar-form/toolbar-form.component';

@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import {
-  Component, NgModule, Input, SimpleChanges, OnInit, OnChanges,
+  Component,
+  NgModule,
+  Input,
+  SimpleChanges,
+  OnInit,
+  OnChanges,
 } from '@angular/core';
 import { DxButtonModule } from 'devextreme-angular/ui/button';
 import { DxListModule } from 'devextreme-angular/ui/list';
@@ -10,7 +15,7 @@ import { CardMenuComponent } from '../card-menu/card-menu.component';
 
 @Component({
   selector: 'card-activities',
-    imports: [
+  imports: [
     DxListModule,
     DxButtonModule,
     DxLoadPanelModule,
@@ -23,7 +28,7 @@ import { CardMenuComponent } from '../card-menu/card-menu.component';
 })
 export class CardActivitiesComponent {
   @Input()
-  activities!: Activity[];
+  activities: Activity[] | undefined;
 
   @Input() showBy? = false;
 

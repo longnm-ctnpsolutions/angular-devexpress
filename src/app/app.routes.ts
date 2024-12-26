@@ -1,11 +1,20 @@
 import { provideRouter, Routes, withHashLocation } from '@angular/router';
 import { AuthGuardService } from './services/auth.service';
-import { SideNavOuterToolbarComponent, UnauthenticatedContentComponent } from './layouts';
-import { CreateAccountFormComponent, ResetPasswordFormComponent, LoginFormComponent, ChangePasswordFormComponent } from './components';
+import {
+  SideNavOuterToolbarComponent,
+  UnauthenticatedContentComponent,
+} from './layouts';
+import {
+  CreateAccountFormComponent,
+  ResetPasswordFormComponent,
+  LoginFormComponent,
+  ChangePasswordFormComponent,
+} from './components';
 import { AppSignUpComponent } from './pages/sign-up-form/sign-up-form.component';
 import { AppSignInComponent } from './pages/sign-in-form/sign-in-form.component';
 import { AppResetPasswordComponent } from './pages/reset-password-form/reset-password-form.component';
 import { CrmContactListComponent } from './pages/crm-contact-list/crm-contact-list.component';
+import { CrmContactDetailsComponent } from './pages/crm-contact-details/crm-contact-details.component';
 
 export const routes: Routes = [
   {
@@ -37,7 +46,7 @@ export const routes: Routes = [
         redirectTo: 'login',
         pathMatch: 'full',
       },
-    ]
+    ],
   },
   {
     path: '',
@@ -48,11 +57,11 @@ export const routes: Routes = [
         component: CrmContactListComponent,
         canActivate: [AuthGuardService],
       },
-      // {
-      //   path: 'crm-contact-details',
-      //   component: CrmContactDetailsComponent,
-      //   canActivate: [AuthGuardService],
-      // },
+      {
+        path: 'crm-contact-details',
+        component: CrmContactDetailsComponent,
+        canActivate: [AuthGuardService],
+      },
       {
         path: 'sign-in-form',
         component: AppSignInComponent,
@@ -77,8 +86,11 @@ export const routes: Routes = [
         redirectTo: 'crm-contact-list',
         pathMatch: 'full',
       },
-    ]
+    ],
   },
 ];
 
-export const appRouterProviders = [provideRouter(routes, withHashLocation()), AuthGuardService];
+export const appRouterProviders = [
+  provideRouter(routes, withHashLocation()),
+  AuthGuardService,
+];
