@@ -15,6 +15,7 @@ import { AppSignInComponent } from './pages/sign-in-form/sign-in-form.component'
 import { AppResetPasswordComponent } from './pages/reset-password-form/reset-password-form.component';
 import { CrmContactListComponent } from './pages/crm-contact-list/crm-contact-list.component';
 import { CrmContactDetailsComponent } from './pages/crm-contact-details/crm-contact-details.component';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 
 export const routes: Routes = [
   {
@@ -77,10 +78,11 @@ export const routes: Routes = [
         component: AppResetPasswordComponent,
         canActivate: [AuthGuardService],
       },
-      // {
-      //   path: 'user-profile',
-      //   component: UserProfileComponent
-      // },
+      {
+        path: 'user-profile',
+        component: UserProfileComponent,
+        canActivate: [AuthGuardService],
+      },
       {
         path: '**',
         redirectTo: 'crm-contact-list',
