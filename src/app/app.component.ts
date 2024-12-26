@@ -6,9 +6,12 @@ import { AppInfoService, AuthService, ScreenService, ThemeService } from './serv
   selector: 'app-root',
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl:'./app.component.scss'
 })
 export class AppComponent implements OnDestroy {
+  title(title: any) {
+    throw new Error('Method not implemented.');
+  }
   @HostBinding('class') get getClass() {
     return Object.keys(this.screen.sizes).filter((cl) => this.screen.sizes[cl]).join(' ');
   }

@@ -5,6 +5,7 @@ import { CreateAccountFormComponent, ResetPasswordFormComponent, LoginFormCompon
 import { AppSignUpComponent } from './pages/sign-up-form/sign-up-form.component';
 import { AppSignInComponent } from './pages/sign-in-form/sign-in-form.component';
 import { AppResetPasswordComponent } from './pages/reset-password-form/reset-password-form.component';
+import { CrmContactListComponent } from './pages/crm-contact-list/crm-contact-list.component';
 
 export const routes: Routes = [
   {
@@ -42,11 +43,11 @@ export const routes: Routes = [
     path: '',
     component: SideNavOuterToolbarComponent,
     children: [
-      // {
-      //   path: 'crm-contact-list',
-      //   component: CrmContactListComponent,
-      //   canActivate: [AuthGuardService],
-      // },
+      {
+        path: 'crm-contact-list',
+        component: CrmContactListComponent,
+        canActivate: [AuthGuardService],
+      },
       // {
       //   path: 'crm-contact-details',
       //   component: CrmContactDetailsComponent,
@@ -71,11 +72,11 @@ export const routes: Routes = [
       //   path: 'user-profile',
       //   component: UserProfileComponent
       // },
-      // {
-      //   path: '**',
-      //   redirectTo: 'crm-contact-list',
-      //   pathMatch: 'full',
-      // },
+      {
+        path: '**',
+        redirectTo: 'crm-contact-list',
+        pathMatch: 'full',
+      },
     ]
   },
 ];

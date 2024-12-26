@@ -15,6 +15,12 @@ export * from './library/profile-card/profile-card.component';
 export * from './library/change-profile-password-form/change-profile-password-form.component';
 export * from './library/password-text-box/password-text-box.component';
 export * from './library/pictured-item-select-box/pictured-item-select-box.component';
+export * from './library/contact-new-form/contact-new-form.component';
+export * from './library/card-activities/card-activities.component';
+export * from './library/contact-panel/contact-panel.component';
+export * from './library/card-menu/card-menu.component';
+
+
 
 
 
@@ -23,4 +29,6 @@ export * from './utils/form-textbox/form-textbox.component';
 export * from './utils/form-popup/form-popup.component';
 export * from './utils/form-photo/form-photo.component';
 export * from './utils/contact-status/contact-status.component';
+export * from './utils/form-photo-uploader/form-photo-uploader.component';
+
 

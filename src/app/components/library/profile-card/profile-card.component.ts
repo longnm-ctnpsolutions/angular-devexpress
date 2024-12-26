@@ -36,7 +36,7 @@ type CardData = Record<string, any>;
   ],
   standalone:true,
   templateUrl: './profile-card.component.html',
-  styleUrls: ['profile-card.component.scss'],
+  styleUrls: ['./profile-card.component.scss'],
 })
 export class ProfileCardComponent {
   @ViewChild('form', { static: true }) form!: DxFormComponent;

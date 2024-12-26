@@ -3,12 +3,12 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DxSelectBoxModule, DxTextBoxModule } from 'devextreme-angular';
-import { ApplyPipe } from '../../../pipes/apply.pipe';
+// import { ApplyPipe } from '../../../pipes/apply.pipe';
 
 @Component({
   selector: 'pictured-item-select-box',
    imports: [
-    ApplyPipe,
+    // ApplyPipe,
     DxSelectBoxModule,
     DxTextBoxModule,
     CommonModule],

@@ -13,16 +13,16 @@ import {
   DxValidatorModule,
 } from 'devextreme-angular';
 import { ValidationRule, EditorStyle } from 'devextreme-angular/common';
-import { ContactStatusComponent } from '../../utils/contact-status/contact-status.component';
-import { ApplyPipe } from '../../../pipes/apply.pipe';
+// import { ContactStatusComponent } from '../../utils/contact-status/contact-status.component';
+// import { ApplyPipe } from '../../../pipes/apply.pipe';
 
 @Component({
   selector: 'password-text-box',
   imports: [
-    ApplyPipe,
+    // ApplyPipe,
     DxSelectBoxModule,
     DxTextBoxModule,
-    ContactStatusComponent,
+    // ContactStatusComponent,
     DxValidatorModule,
     CommonModule,
   ],

@@ -32,6 +32,8 @@
             "styles": [
               "node_modules/devextreme/dist/css/dx.common.css",
               "devexpress-gantt/dist/dx-gantt.css",
+              "node_modules/font-awesome/css/font-awesome.css",
+              "src/styles.scss",
               {
                 "input": "devextreme/scss/bundles/dx.fluent.blue.light.scss",
                 "bundleName": "theme-light"
