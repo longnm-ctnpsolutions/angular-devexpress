@@ -13,13 +13,12 @@ import {
   // CardNotesComponent,
   ContactCardsComponent,
   ContactFormComponent,
-  // ContactNewFormComponent,
 } from '../../components';
 import { DataService } from '../../services';
 import { Contact, Messages, Notes, Opportunities } from '../../types';
 
 @Component({
-  templateUrl: './crm-contact-details.component.html',
+  templateUrl: './department-details.component.html',
   imports: [
     DxButtonModule,
     DxDropDownButtonModule,
@@ -35,10 +34,10 @@ import { Contact, Messages, Notes, Opportunities } from '../../types';
     CommonModule,
   ],
   standalone: true,
-  styleUrls: ['./crm-contact-details.component.scss'],
+  styleUrls: ['./department-details.component.scss'],
   providers: [DataService],
 })
-export class CrmContactDetailsComponent implements OnInit {
+export class DepartmentDetailsComponent implements OnInit {
   contactId = 12;
 
   contactData: Contact | undefined;

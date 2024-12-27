@@ -6,11 +6,11 @@ export const navigation = [
     items: [
       {
         text: 'Company List',
-        // path: '/crm-contact-list',
+        path: '/company-list',
       },
       {
         text: 'Company Details',
-        // path: '/crm-contact-details',
+        path: '/company-details',
       },
     ],
   },
@@ -21,11 +21,11 @@ export const navigation = [
     items: [
       {
         text: 'Department List',
-        // path: '/crm-contact-list',
+        path: '/department-list',
       },
       {
         text: 'Department Details',
-        // path: '/crm-contact-details',
+        path: '/department-details',
       },
     ],
   },
@@ -50,11 +50,11 @@ export const navigation = [
     path: '',
     items: [
       {
-        text: 'Contact List',
+        text: 'Employee List',
         path: '/employee-list',
       },
       {
-        text: 'Contact Details',
+        text: 'Employee Details',
         path: '/employee-details',
       },
     ],

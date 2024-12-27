@@ -8,12 +8,11 @@ import {
 import { forkJoin, map } from 'rxjs';
 import { DxToolbarModule } from 'devextreme-angular/ui/toolbar';
 import {
-  CardActivitiesComponent,
-  CardMessagesComponent,
-  CardNotesComponent,
+  // CardActivitiesComponent,
+  // CardMessagesComponent,
+  // CardNotesComponent,
   ContactCardsComponent,
   ContactFormComponent,
-  ContactNewFormComponent,
 } from '../../components';
 import { DataService } from '../../services';
 import { Contact, Messages, Notes, Opportunities } from '../../types';
@@ -29,9 +28,9 @@ import { Contact, Messages, Notes, Opportunities } from '../../types';
     ContactFormComponent,
     ContactCardsComponent,
 
-    CardActivitiesComponent,
-    CardNotesComponent,
-    CardMessagesComponent,
+    // CardActivitiesComponent,
+    // CardNotesComponent,
+    // CardMessagesComponent,
     CommonModule,
   ],
   standalone: true,

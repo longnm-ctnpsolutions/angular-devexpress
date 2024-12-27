@@ -27,11 +27,12 @@ import {
 import { Contact, ContactStatus, contactStatusList } from '../../types/contact';
 import { formatPhone } from '../../pipes/phone.pipe';
 import { DataService } from '../../services';
+import { userStatusList } from '../../types/user';
 
 type FilterContactStatus = ContactStatus | 'All';
 
 @Component({
-  templateUrl: './crm-contact-list.component.html',
+  templateUrl: './employee-list.component.html',
   standalone: true,
   imports: [
     DxButtonModule,
@@ -47,10 +48,10 @@ type FilterContactStatus = ContactStatus | 'All';
     ContactStatusComponent,
     CommonModule,
   ],
-  styleUrls: ['./crm-contact-list.component.scss'],
+  styleUrls: ['./employee-list.component.scss'],
   providers: [DataService],
 })
-export class CrmContactListComponent {
+export class EmployeeListComponent {
   @ViewChild(DxDataGridComponent, { static: true })
   dataGrid!: DxDataGridComponent;
 
@@ -66,6 +67,10 @@ export class CrmContactListComponent {
   isAddContactPopupOpened = false;
 
   userId: number | null = null;
+
+  //User
+  userList = userStatusList;
+  filterUserStatusList = ['All', ...userStatusList];
 
   dataSource = new DataSource<Contact[], string>({
     key: 'id',

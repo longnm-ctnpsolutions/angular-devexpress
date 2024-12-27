@@ -20,7 +20,12 @@ import { forkJoin } from 'rxjs';
 import { ScreenService } from '../../services/screen.service';
 import { PhonePipe } from '../../pipes/phone.pipe';
 import { DataService } from '../../services';
-import { ChangeProfilePasswordFormComponent, FormPhotoComponent, FormPopupComponent, FormTextboxComponent, ProfileCardComponent } from '../../components';
+import { ChangeProfilePasswordFormComponent,
+  FormPhotoComponent,
+  // FormPopupComponent,
+  // FormTextboxComponent,
+  ProfileCardComponent
+} from '../../components';
 import { ClickEvent } from 'devextreme/ui/button';
 
 
@@ -39,9 +44,9 @@ import { ClickEvent } from 'devextreme/ui/button';
     DxLoadPanelModule,
     DxTextBoxModule,
 
-    FormTextboxComponent,
+    // FormTextboxComponent,
     FormPhotoComponent,
-    FormPopupComponent,
+    // FormPopupComponent,
     ProfileCardComponent,
     ChangeProfilePasswordFormComponent,
     CommonModule,

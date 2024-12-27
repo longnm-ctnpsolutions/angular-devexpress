@@ -14,11 +14,11 @@ import {
 import { ValidationRule } from 'devextreme-angular/common';
 import { DxButtonTypes } from 'devextreme-angular/ui/button';
 import { FormTextboxComponent } from '../../utils/form-textbox/form-textbox.component';
-import { ContactStatusComponent } from '../../utils/contact-status/contact-status.component';
 import { FormPhotoComponent } from '../../utils/form-photo/form-photo.component';
+import { ToolbarFormComponent } from '../../utils/toolbar-form/toolbar-form.component';
 import { StatusSelectBoxComponent } from '../status-select-box/status-select-box.component';
 import { Contact } from '../../../types';
-import { ToolbarFormComponent } from '../../utils/toolbar-form/toolbar-form.component';
+
 
 @Component({
   selector: 'contact-form',
@@ -32,7 +32,7 @@ import { ToolbarFormComponent } from '../../utils/toolbar-form/toolbar-form.comp
     DxValidationGroupModule,
 
     FormTextboxComponent,
-    ContactStatusComponent,
+    // ContactStatusComponent,
     FormPhotoComponent,
     DxValidatorModule,
     ToolbarFormComponent,
