@@ -13,7 +13,8 @@ import { LoginOauthComponent } from '../login-oauth/login-oauth.component';
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule,  LoginOauthComponent,
+    RouterModule,
+    LoginOauthComponent,
     DxFormModule,
     DxLoadIndicatorModule,
     DxButtonModule,
@@ -37,21 +38,27 @@ export class LoginFormComponent implements OnInit {
 
   passwordEditorOptions = {
     placeholder: 'Password',
-    stylingMode:'filled',
+    stylingMode: 'filled',
     mode: this.passwordMode,
     value: 'password',
-    // buttons: [{
-    //   name: 'password',
-    //   location: 'after',
-    //   options: {
-    //     icon: 'info',
-    //     stylingMode:'text',
-    //     onClick: () => this.changePasswordMode(),
-    //   }
-    // }]
-  }
+    buttons: [
+      {
+        name: 'password',
+        location: 'after',
+        options: {
+          icon: 'info',
+          stylingMode: 'text',
+          onClick: () => this.changePasswordMode(),
+        },
+      },
+    ],
+  };
 
-  constructor(private authService: AuthService, private router: Router, private themeService: ThemeService) {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private themeService: ThemeService
+  ) {
     this.themeService.isDark.subscribe((value: boolean) => {
       this.btnStylingMode = value ? 'outlined' : 'contained';
     });
@@ -60,7 +67,7 @@ export class LoginFormComponent implements OnInit {
   changePasswordMode() {
     debugger;
     this.passwordMode = this.passwordMode === 'text' ? 'password' : 'text';
-  };
+  }
 
   async onSubmit(e: Event) {
     e.preventDefault();
@@ -79,7 +86,6 @@ export class LoginFormComponent implements OnInit {
   };
 
   async ngOnInit(): Promise<void> {
-     this.defaultAuthData = await this.authService.getUser();
+    this.defaultAuthData = await this.authService.getUser();
   }
 }
-
