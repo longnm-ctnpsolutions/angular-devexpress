@@ -1,8 +1,8 @@
-import { HttpClient } from "@angular/common/http";
-import { BaseDataService } from "./base-data.service";
-import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { User } from "../types/user";
+import { HttpClient } from '@angular/common/http';
+import { BaseDataService } from './base-data.service';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { User } from '../types/employee';
 
 // user.service.ts
 @Injectable({

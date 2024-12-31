@@ -34,3 +34,4 @@ export * from './utils/card-tasks/card-tasks.component';
 export * from './utils/contact-cards/contact-cards.component';
 export * from './utils/opportunity-tile/opportunity-tile.component';
 export * from './utils/toolbar-form/toolbar-form.component';
+export * from './utils/company-status/company-status.component';

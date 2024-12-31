@@ -27,7 +27,7 @@ import {
 import { Contact, ContactStatus, contactStatusList } from '../../types/contact';
 import { formatPhone } from '../../pipes/phone.pipe';
 import { DataService } from '../../services';
-import { userStatusList } from '../../types/user';
+import { userStatusList } from '../../types/employee';
 
 type FilterContactStatus = ContactStatus | 'All';
 

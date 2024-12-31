@@ -18,18 +18,24 @@ import { saveAs } from 'file-saver-es';
 import { jsPDF } from 'jspdf';
 import notify from 'devextreme/ui/notify';
 import {
+  CompanyStatusComponent,
   // CardActivitiesComponent,
   ContactNewFormComponent,
   ContactPanelComponent,
-  ContactStatusComponent,
   FormPopupComponent,
 } from '../../components';
-import { Contact, ContactStatus, contactStatusList } from '../../types/contact';
 import { formatPhone } from '../../pipes/phone.pipe';
-import { DataService } from '../../services';
-import { userStatusList } from '../../types/user';
+import { userStatusList } from '../../types/employee';
+import { BaseDataService } from '../../services/base-data.service';
+import {
+  Company,
+  CompanyStatus,
+  companyStatusList,
+  reverseStatusMapping,
+  statusMapping,
+} from '../../types/company';
 
-type FilterContactStatus = ContactStatus | 'All';
+type FilterCompanyStatus = CompanyStatus | 'All';
 
 @Component({
   templateUrl: './company-list.component.html',
@@ -45,11 +51,11 @@ type FilterContactStatus = ContactStatus | 'All';
     ContactNewFormComponent,
     FormPopupComponent,
     // CardActivitiesComponent,
-    ContactStatusComponent,
+    CompanyStatusComponent,
     CommonModule,
   ],
   styleUrls: ['./company-list.component.scss'],
-  providers: [DataService],
+  providers: [BaseDataService],
 })
 export class CompanyListComponent {
   @ViewChild(DxDataGridComponent, { static: true })
@@ -58,32 +64,39 @@ export class CompanyListComponent {
   @ViewChild(ContactNewFormComponent, { static: false })
   contactNewForm!: ContactNewFormComponent;
 
-  statusList = contactStatusList;
+  statusList = companyStatusList;
 
-  filterStatusList = ['All', ...contactStatusList];
+  filterStatusList = ['All', ...companyStatusList];
 
   isPanelOpened = false;
 
   isAddContactPopupOpened = false;
 
-  userId: number | null = null;
+  companyID: number | null = null;
 
   //User
   userList = userStatusList;
   filterUserStatusList = ['All', ...userStatusList];
 
-  dataSource = new DataSource<Contact[], string>({
-    key: 'id',
+  dataSource = new DataSource<Company[], string>({
+    key: 'companyID',
     load: () =>
       new Promise((resolve, reject) => {
-        this.service.getContacts().subscribe({
-          next: (data: Contact[]) => resolve(data),
-          error: ({ message }) => reject(message),
+        this.service.getCompanies().subscribe({
+          next: (data: Company[]) => {
+            const transformedData = data.map((company) => ({
+              ...company,
+              status: company.isActive ? 'Active' : 'InActive',
+            }));
+            resolve(transformedData);
+            console.log('Data loaded:', transformedData);
+          },
+          error: ({ message }: any) => reject(message),
         });
       }),
   });
 
-  constructor(private service: DataService) {}
+  constructor(private service: BaseDataService) {}
 
   addContact() {
     this.isAddContactPopupOpened = true;
@@ -95,14 +108,13 @@ export class CompanyListComponent {
 
   rowClick(e: DxDataGridTypes.RowClickEvent) {
     const { data } = e;
-
-    this.userId = data.id;
+    this.companyID = data.companyID;
     this.isPanelOpened = true;
   }
 
   onOpenedChange = (value: boolean) => {
     if (!value) {
-      this.userId = null;
+      this.companyID = null;
     }
   };
 
@@ -111,7 +123,7 @@ export class CompanyListComponent {
   };
 
   filterByStatus = (e: DxDropDownButtonTypes.SelectionChangedEvent) => {
-    const { item: status }: { item: FilterContactStatus } = e;
+    const { item: status }: { item: FilterCompanyStatus } = e;
 
     if (status === 'All') {
       this.dataGrid.instance.clearFilter();
@@ -130,11 +142,11 @@ export class CompanyListComponent {
         jsPDFDocument: doc,
         component: e.component,
       }).then(() => {
-        doc.save('Contacts.pdf');
+        doc.save('Companies.pdf');
       });
     } else {
       const workbook = new Workbook();
-      const worksheet = workbook.addWorksheet('Contacts');
+      const worksheet = workbook.addWorksheet('Companies');
 
       exportDataGridToXLSX({
         component: e.component,
@@ -144,7 +156,7 @@ export class CompanyListComponent {
         workbook.xlsx.writeBuffer().then((buffer) => {
           saveAs(
             new Blob([buffer], { type: 'application/octet-stream' }),
-            'Contacts.xlsx'
+            'Companys.xlsx'
           );
         });
       });

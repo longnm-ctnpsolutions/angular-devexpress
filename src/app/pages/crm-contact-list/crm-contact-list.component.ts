@@ -72,7 +72,9 @@ export class CrmContactListComponent {
     load: () =>
       new Promise((resolve, reject) => {
         this.service.getContacts().subscribe({
-          next: (data: Contact[]) => resolve(data),
+          next: (data: Contact[]) => {
+            resolve(data), console.log('Data loaded:', data);
+          },
           error: ({ message }) => reject(message),
         });
       }),

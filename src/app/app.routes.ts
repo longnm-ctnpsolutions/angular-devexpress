@@ -88,19 +88,19 @@ export const routes: Routes = [
         data: { roles: [] },
       },
 
-      //Department
-      {
-        path: 'department-list',
-        component: DepartmentListComponent,
-        canActivate: [AuthGuardService],
-        data: { roles: [] },
-      },
-      {
-        path: 'department-details',
-        component: DepartmentDetailsComponent,
-        canActivate: [AuthGuardService],
-        data: { roles: [] },
-      },
+      // //Department
+      // {
+      //   path: 'department-list',
+      //   component: DepartmentListComponent,
+      //   canActivate: [AuthGuardService],
+      //   data: { roles: [] },
+      // },
+      // {
+      //   path: 'department-details',
+      //   component: DepartmentDetailsComponent,
+      //   canActivate: [AuthGuardService],
+      //   data: { roles: [] },
+      // },
 
       {
         path: 'crm-contact-list',

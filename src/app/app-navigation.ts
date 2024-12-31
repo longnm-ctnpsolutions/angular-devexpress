@@ -14,21 +14,21 @@ export const navigation = [
       },
     ],
   },
-  {
-    text: 'Department',
-    icon: 'accountbox',
-    path: '',
-    items: [
-      {
-        text: 'Department List',
-        path: '/department-list',
-      },
-      {
-        text: 'Department Details',
-        path: '/department-details',
-      },
-    ],
-  },
+  // {
+  //   text: 'Department',
+  //   icon: 'accountbox',
+  //   path: '',
+  //   items: [
+  //     {
+  //       text: 'Department List',
+  //       path: '/department-list',
+  //     },
+  //     {
+  //       text: 'Department Details',
+  //       path: '/department-details',
+  //     },
+  //   ],
+  // },
   {
     text: 'Employee',
     icon: 'user',

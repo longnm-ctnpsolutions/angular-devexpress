@@ -1,9 +1,9 @@
-import { User } from './user';
+import { Employee } from './employee';
 
 export type Department = {
   departmentID: number;
   departmentName: string;
   companyID: number;
   companyName: string;
-  users: User[];
+  employees: Employee[];
 };
