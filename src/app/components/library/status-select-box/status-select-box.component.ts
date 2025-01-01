@@ -11,13 +11,15 @@ import { EditorStyle } from 'devextreme-angular/common';
 import { ThemeService } from '../../../services';
 import { contactStatusList } from '../../../types/contact';
 import { ContactStatusComponent } from '../../utils/contact-status/contact-status.component';
+import { companyStatusList } from '../../../types/company';
+import { CompanyStatusComponent } from '../../utils/company-status/company-status.component';
 
 @Component({
   selector: 'status-select-box',
   imports: [
     DxSelectBoxModule,
     DxTextBoxModule,
-    ContactStatusComponent,
+    CompanyStatusComponent,
     CommonModule,
   ],
   standalone: true,
@@ -25,12 +27,11 @@ import { ContactStatusComponent } from '../../utils/contact-status/contact-statu
   styleUrls: ['./status-select-box.component.scss'],
 })
 export class StatusSelectBoxComponent {
-
   @Input() value!: string;
 
   @Input() label = '';
 
-  @Input() items = contactStatusList;
+  @Input() items = companyStatusList;
 
   @Input() readOnly = false;
 

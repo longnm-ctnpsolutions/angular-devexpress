@@ -19,21 +19,14 @@ import { jsPDF } from 'jspdf';
 import notify from 'devextreme/ui/notify';
 import {
   CompanyStatusComponent,
-  // CardActivitiesComponent,
   ContactNewFormComponent,
-  ContactPanelComponent,
   FormPopupComponent,
 } from '../../components';
 import { formatPhone } from '../../pipes/phone.pipe';
 import { userStatusList } from '../../types/employee';
 import { BaseDataService } from '../../services/base-data.service';
-import {
-  Company,
-  CompanyStatus,
-  companyStatusList,
-  reverseStatusMapping,
-  statusMapping,
-} from '../../types/company';
+import { Company, CompanyStatus, companyStatusList } from '../../types/company';
+import { CompanyPanelComponent } from '../../components/library/company-panel/company-panel.component';
 
 type FilterCompanyStatus = CompanyStatus | 'All';
 
@@ -46,13 +39,11 @@ type FilterCompanyStatus = CompanyStatus | 'All';
     DxDropDownButtonModule,
     DxSelectBoxModule,
     DxTextBoxModule,
-
-    ContactPanelComponent,
     ContactNewFormComponent,
     FormPopupComponent,
-    // CardActivitiesComponent,
     CompanyStatusComponent,
     CommonModule,
+    CompanyPanelComponent,
   ],
   styleUrls: ['./company-list.component.scss'],
   providers: [BaseDataService],
@@ -63,7 +54,6 @@ export class CompanyListComponent {
 
   @ViewChild(ContactNewFormComponent, { static: false })
   contactNewForm!: ContactNewFormComponent;
-
   statusList = companyStatusList;
 
   filterStatusList = ['All', ...companyStatusList];
@@ -74,25 +64,36 @@ export class CompanyListComponent {
 
   companyID: number | null = null;
 
+  companyList!: Company[];
+
   //User
   userList = userStatusList;
   filterUserStatusList = ['All', ...userStatusList];
 
+  
   dataSource = new DataSource<Company[], string>({
     key: 'companyID',
     load: () =>
       new Promise((resolve, reject) => {
-        this.service.getCompanies().subscribe({
-          next: (data: Company[]) => {
-            const transformedData = data.map((company) => ({
-              ...company,
-              status: company.isActive ? 'Active' : 'InActive',
-            }));
-            resolve(transformedData);
-            console.log('Data loaded:', transformedData);
-          },
-          error: ({ message }: any) => reject(message),
-        });
+        const cachedData = this.service.getCompanyList();
+        if (cachedData && cachedData.length > 0) {
+          resolve(cachedData);
+        } else {
+          this.service.getCompanies().subscribe({
+            next: (data: Company[]) => {
+              const transformedData = data.map((company) => ({
+                ...company,
+                status: company.isActive ? 'Active' : 'InActive',
+                image: this.service.generateRandomImage(),
+              }));
+              this.companyList = transformedData;
+              this.service.setCompanyList(this.companyList);
+              resolve(this.companyList);
+              console.log('Data loaded from API:', this.companyList);
+            },
+            error: ({ message }: any) => reject(message),
+          });
+        }
       }),
   });
 

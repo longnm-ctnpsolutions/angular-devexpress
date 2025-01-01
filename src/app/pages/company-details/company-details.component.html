@@ -4,7 +4,7 @@
       <dxi-item location="before">
         <dx-button icon="arrowleft" stylingMode="text"></dx-button>
       </dxi-item>
-      <dxi-item location="before" [text]="contactName"></dxi-item>
+      <dxi-item location="before" [text]="companyData?.companyName"></dxi-item>
       <dxi-item location="after" locateInMenu="auto">
         <dx-button
           text="Terminate"
@@ -50,10 +50,10 @@
 
     <div class="panels theme-dependent">
       <div class="left">
-        <contact-form
-          [contactData]="contactData"
+        <company-form
+          [companyData]="companyData"
           [isLoading]="isLoading"
-        ></contact-form>
+        ></company-form>
       </div>
 
       <div class="right theme-dependent">

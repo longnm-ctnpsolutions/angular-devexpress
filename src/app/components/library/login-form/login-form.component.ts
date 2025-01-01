@@ -78,6 +78,8 @@ export class LoginFormComponent implements OnInit {
     this.loading = false;
     if (!result.isOk) {
       notify(result.message, 'error', 2000);
+    } else {
+      this.router.navigate(['/company-list']);
     }
   }
 
@@ -87,5 +89,9 @@ export class LoginFormComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.defaultAuthData = await this.authService.getUser();
+    // if (this.defaultAuthData && this.defaultAuthData.isAuthenticated) {
+
+    //   this.router.navigate(['/dashboard']);
+    // }
   }
 }

@@ -7,8 +7,12 @@ export type Company = {
   address: string;
   phone: string;
   isActive: boolean;
+  email: string;
+  status: string;
+  industry: string;
   employees: Employee[];
-  departments: Department[];
+  image: string;
+  // departments: Department[];
 };
 
 export const companyStatusList: string[] = ['Active', 'InActive'];

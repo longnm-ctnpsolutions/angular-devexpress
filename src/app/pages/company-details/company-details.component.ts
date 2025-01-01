@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   DxButtonModule,
@@ -16,6 +16,9 @@ import {
 } from '../../components';
 import { DataService } from '../../services';
 import { Contact, Messages, Notes, Opportunities } from '../../types';
+import { BaseDataService } from '../../services/base-data.service';
+import { Company } from '../../types/company';
+import { CompanyFormComponent } from '../../components/library/company-form/company-form.component';
 
 @Component({
   templateUrl: './company-details.component.html',
@@ -24,18 +27,17 @@ import { Contact, Messages, Notes, Opportunities } from '../../types';
     DxDropDownButtonModule,
     DxScrollViewModule,
     DxToolbarModule,
-
-    ContactFormComponent,
+    CompanyFormComponent,
     ContactCardsComponent,
-
     // CardActivitiesComponent,
     // CardNotesComponent,
     // CardMessagesComponent,
     CommonModule,
+    CompanyFormComponent,
   ],
   standalone: true,
   styleUrls: ['./company-details.component.scss'],
-  providers: [DataService],
+  providers: [DataService, BaseDataService],
 })
 export class CompanyDetailsComponent implements OnInit {
   contactId = 12;
@@ -54,11 +56,46 @@ export class CompanyDetailsComponent implements OnInit {
 
   isLoading = false;
 
-  constructor(private service: DataService) {}
+  companyDataLocal: Company | undefined;
+
+  companyData: Company | undefined;
+  transformedData: Company | undefined;
+  constructor(
+    private service: DataService,
+    private baseDataService: BaseDataService
+  ) {}
 
   ngOnInit(): void {
     this.loadData();
+    if (this.companyDataLocal) {
+      const companyId = this.companyDataLocal.companyID;
+      this.loadUserById(companyId);
+    }
   }
+
+  loadUserById = (id: number) => {
+    this.isLoading = true;
+    const companyById = this.baseDataService
+      .getCompanyList()
+      .find((company) => company.companyID === id);
+    if (companyById) {
+      const transformedData = {
+        ...companyById,
+        status: companyById.isActive ? 'Active' : 'InActive',
+      };
+      return (this.companyData = transformedData);
+    } else {
+      this.baseDataService.getCompanie(id).subscribe((data) => {
+        const transformedData = {
+          ...data,
+          status: data.isActive ? 'Active' : 'InActive',
+          image: this.baseDataService.generateRandomImage(),
+        };
+        return transformedData;
+      });
+    }
+    return (this.companyData = this.transformedData);
+  };
 
   loadData = () => {
     forkJoin([
@@ -89,7 +126,10 @@ export class CompanyDetailsComponent implements OnInit {
         this.closedOpportunities = data.closedOpportunities;
         this.isLoading = false;
       });
-
+    this.baseDataService.getCompanyData().subscribe((data) => {
+      this.companyDataLocal = data;
+      console.log('Company Data on init:', this.companyDataLocal);
+    });
     this.service.getContact(this.contactId).subscribe((data) => {
       this.contactName = data.name;
       this.contactData = data;

@@ -21,6 +21,8 @@ export * from './library/contact-panel/contact-panel.component';
 export * from './library/card-menu/card-menu.component';
 export * from './library/contact-form/contact-form.component';
 export * from './library/user-avatar/user-avatar.component';
+export * from './library/company-panel/company-panel.component';
+export * from './library/company-form/company-form.component';
 
 export * from './utils/form-textbox/form-textbox.component';
 export * from './utils/form-popup/form-popup.component';

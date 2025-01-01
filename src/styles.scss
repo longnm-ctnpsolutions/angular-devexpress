@@ -204,11 +204,13 @@ body {
   @include status(#03a9f4);
 }
 
-.status-salaried {
+.status-salaried,
+.status-active {
   @include status(#2eb52c);
 }
 
-.status-terminated {
+.status-terminated,
+.status-inactive {
   @include status(#de8e8c);
 }
 

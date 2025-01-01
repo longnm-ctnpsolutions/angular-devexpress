@@ -30,7 +30,7 @@
     <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
     <dxo-search-panel
       [visible]="true"
-      placeholder="Contact Search"
+      placeholder="Company search"
     ></dxo-search-panel>
     <dxo-export
       [enabled]="true"
@@ -122,7 +122,7 @@
     <div *dxTemplate="let cellInfo of 'companyName'" class="name-template">
       <div>
         <div>{{ cellInfo.data.companyName }}</div>
-        <!-- <div class="position">{{ cellInfo.data.position }}</div> -->
+        <div class="position">{{ cellInfo.data.industry }}</div>
       </div>
     </div>
 
@@ -150,13 +150,13 @@
     </div>
   </dx-data-grid>
 
-  <contact-panel
+  <company-panel
     [userId]="companyID"
     [(isOpened)]="isPanelOpened"
     (isOpenedChange)="onOpenedChange($event)"
     (pinnedChange)="onPinnedChange()"
   >
-  </contact-panel>
+  </company-panel>
 
   <form-popup
     [(visible)]="isAddContactPopupOpened"
