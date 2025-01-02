@@ -10,6 +10,7 @@
           text="Terminate"
           type="default"
           stylingMode="contained"
+          (click)="deleteCompany()"
         ></dx-button>
       </dxi-item>
       <dxi-item location="after" locateInMenu="auto">
@@ -43,8 +44,9 @@
     <div class="panels theme-dependent">
       <div class="left">
         <company-form
-          [companyData]="companyData"
-          [isLoading]="isLoading"
+           *ngIf="companyData"
+            [companyData]="companyData"
+            [isLoading]="isLoading"
         ></company-form>
       </div>
 

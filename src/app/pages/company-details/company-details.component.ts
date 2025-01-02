@@ -20,6 +20,7 @@ import { BaseDataService } from '../../services/base-data.service';
 import { Company } from '../../types/company';
 import { CompanyFormComponent } from '../../components/library/company-form/company-form.component';
 import { Router } from '@angular/router';
+import notify from 'devextreme/ui/notify';
 
 @Component({
   templateUrl: './company-details.component.html',
@@ -60,6 +61,7 @@ export class CompanyDetailsComponent implements OnInit {
   companyDataLocal: Company | undefined;
 
   companyData: Company | undefined;
+
   transformedData: Company | undefined;
   constructor(
     private service: DataService,
@@ -74,6 +76,57 @@ export class CompanyDetailsComponent implements OnInit {
       this.loadUserById(companyId);
     }
   }
+
+  deleteCompany = () => {
+    const companyId = this.companyDataLocal?.companyID;
+    if (companyId) {
+      notify(
+        {
+          message: `Deleting company with ID ${companyId}...`,
+          position: { at: 'top center', my: 'top center' },
+        },
+        'warning'
+      );
+      let countdown = 3;
+      const countdownInterval = setInterval(() => {
+        notify(
+          {
+            message: `Redirecting in ${countdown} seconds...`,
+            position: { at: 'top center', my: 'top center' },
+          },
+          'warning'
+        );
+
+        countdown--;
+        if (countdown < 0) {
+          clearInterval(countdownInterval);
+          this.baseDataService.deleteCompany(companyId).subscribe({
+            next: (response) => {
+              notify(
+                {
+                  message: `Company with ID ${companyId} deleted successfully.`,
+                  position: { at: 'top center', my: 'top center' },
+                },
+                'success'
+              );
+              this.router.navigate(['/company-list']);
+            },
+            error: (err) => {
+              notify(
+                {
+                  message: `Failed to delete company with ID ${companyId}. Please try again.`,
+                  position: { at: 'top center', my: 'top center' },
+                },
+                'error'
+              );
+            },
+          });
+        }
+      }, 1000);
+    } else {
+      console.error('companyDataLocal or companyID is undefined');
+    }
+  };
 
   loadUserById = (id: number) => {
     this.isLoading = true;

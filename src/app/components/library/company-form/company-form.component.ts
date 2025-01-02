@@ -17,7 +17,10 @@ import { FormPhotoComponent } from '../../utils/form-photo/form-photo.component'
 import { ToolbarFormComponent } from '../../utils/toolbar-form/toolbar-form.component';
 import { StatusSelectBoxComponent } from '../status-select-box/status-select-box.component';
 import { Contact } from '../../../types';
-import { Company } from '../../../types/company';
+import { Company, CompanyBase } from '../../../types/company';
+import { get, omit } from 'lodash';
+import { BaseDataService } from '../../../services/base-data.service';
+import notify from 'devextreme/ui/notify';
 
 @Component({
   selector: 'company-form',
@@ -42,7 +45,7 @@ import { Company } from '../../../types/company';
   styleUrls: ['./company-form.component.scss'],
 })
 export class CompanyFormComponent {
-  @Input() companyData: Company | undefined;
+  @Input() companyData!: Company;
 
   @Input() isLoading: boolean | undefined;
 
@@ -55,6 +58,8 @@ export class CompanyFormComponent {
     message: 'Zip is invalid',
   };
 
+  constructor(private service: BaseDataService) {}
+
   handleEditClick() {
     this.savedData = JSON.parse(JSON.stringify(this.companyData));
     this.isEditing = true;
@@ -62,8 +67,32 @@ export class CompanyFormComponent {
 
   handleSaveClick({ validationGroup }: DxButtonTypes.ClickEvent) {
     if (!validationGroup.validate().isValid) return;
-    this.isEditing = false;
-    this.savedData = null;
+    const id: number = get(this.companyData, 'companyID');
+    const newCompany: CompanyBase = omit(this.companyData, 'image', 'status');
+    newCompany.isActive = this.companyData.status.trim() === 'Active';
+    console.log(newCompany);
+    this.service.updateCompanyPanel(newCompany, id).subscribe({
+      next: (response) => {
+        notify(
+          {
+            message: `New company "${newCompany.companyName}" saved`,
+            position: { at: 'top center', my: 'top   center' },
+          },
+          'success'
+        );
+        return response;
+      },
+      error: (err) => {
+        notify(
+          {
+            message: `Some things went wrong`,
+            position: { at: 'top center', my: 'top   center' },
+          },
+          'error'
+        );
+      },
+    });
+    this.isEditing = !this.isEditing;
   }
 
   handleCancelClick() {

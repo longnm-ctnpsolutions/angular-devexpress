@@ -32,45 +32,18 @@
               [readOnly]="!isEditing"
             ></status-select-box>
           </dxi-item>
-
           <dxi-item>
             <form-textbox
               *dxTemplate
-              label="First Name"
-              [(value)]="companyData.companyName"
-              [isEditing]="isEditing"
-            ></form-textbox>
-          </dxi-item>
-
-          <dxi-item>
-            <form-textbox
-              *dxTemplate
-              label="Last Name"
-              [(value)]="companyData.companyName"
+              label="Position"
+              [(value)]="companyData.industry"
               [isEditing]="isEditing"
             ></form-textbox>
           </dxi-item>
         </dxi-item>
+      </dxi-item>
 
-        <dxi-item>
-          <form-textbox
-            *dxTemplate
-            label="Position"
-            [(value)]="companyData.industry"
-            [isEditing]="isEditing"
-          ></form-textbox>
-        </dxi-item>
-
-        <dxi-item cssClass="accent">
-          <form-textbox
-            *dxTemplate
-            label="Assigned to"
-            [(value)]="companyData.companyName"
-            [isEditing]="isEditing"
-          ></form-textbox>
-        </dxi-item>
-
-        <dxi-item cssClass="accent" [colSpan]="2">
+        <dxi-item cssClass="accent" [colSpan]="4">
           <form-textbox
             *dxTemplate
             label="Company"
@@ -78,7 +51,6 @@
             [isEditing]="isEditing"
           ></form-textbox>
         </dxi-item>
-      </dxi-item>
 
       <dxi-item itemType="group" [colCount]="4" caption="Contacts">
         <dxo-col-count-by-screen [xs]="2"></dxo-col-count-by-screen>
@@ -109,7 +81,7 @@
           ></form-textbox>
         </dxi-item>
 
-        <dxi-item>
+        <!-- <dxi-item>
           <dx-number-box
             *dxTemplate
             label="Zip Code"
@@ -122,7 +94,7 @@
           >
             <dx-validator [validationRules]="[zipCodeValidator]"></dx-validator>
           </dx-number-box>
-        </dxi-item>
+        </dxi-item> -->
       </dxi-item>
 
       <dxi-item itemType="group" [colCount]="2" cssClass="contact-fields-group">
