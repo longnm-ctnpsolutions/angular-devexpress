@@ -1,4 +1,4 @@
-import { Component, ViewChild, NgModule } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import {
   DxButtonModule,
   DxDataGridModule,
@@ -17,16 +17,13 @@ import { Workbook } from 'exceljs';
 import { saveAs } from 'file-saver-es';
 import { jsPDF } from 'jspdf';
 import notify from 'devextreme/ui/notify';
-import {
-  CompanyStatusComponent,
-  ContactNewFormComponent,
-  FormPopupComponent,
-} from '../../components';
+import { CompanyStatusComponent, FormPopupComponent } from '../../components';
 import { formatPhone } from '../../pipes/phone.pipe';
 import { userStatusList } from '../../types/employee';
 import { BaseDataService } from '../../services/base-data.service';
 import { Company, CompanyStatus, companyStatusList } from '../../types/company';
 import { CompanyPanelComponent } from '../../components/library/company-panel/company-panel.component';
+import { CompanyNewFormComponent } from '../../components/library/company-new-form/company-new-form.component';
 
 type FilterCompanyStatus = CompanyStatus | 'All';
 
@@ -39,11 +36,12 @@ type FilterCompanyStatus = CompanyStatus | 'All';
     DxDropDownButtonModule,
     DxSelectBoxModule,
     DxTextBoxModule,
-    ContactNewFormComponent,
+
     FormPopupComponent,
     CompanyStatusComponent,
     CommonModule,
     CompanyPanelComponent,
+    CompanyNewFormComponent,
   ],
   styleUrls: ['./company-list.component.scss'],
   providers: [BaseDataService],
@@ -52,8 +50,8 @@ export class CompanyListComponent {
   @ViewChild(DxDataGridComponent, { static: true })
   dataGrid!: DxDataGridComponent;
 
-  @ViewChild(ContactNewFormComponent, { static: false })
-  contactNewForm!: ContactNewFormComponent;
+  @ViewChild(CompanyNewFormComponent, { static: false })
+  companyNewForm!: CompanyNewFormComponent;
   statusList = companyStatusList;
 
   filterStatusList = ['All', ...companyStatusList];
@@ -70,31 +68,47 @@ export class CompanyListComponent {
   userList = userStatusList;
   filterUserStatusList = ['All', ...userStatusList];
 
-  
+  // dataSource = new DataSource<Company[], string>({
+  //   key: 'companyID',
+  //   load: () =>
+  //     new Promise((resolve, reject) => {
+  //       this.service.getCompanies().subscribe({
+  //         next: (companies) => {
+  //           const transformedData = companies.map((company) => ({
+  //             ...company,
+  //             status: company.isActive ? 'Active' : 'InActive',
+  //             image: this.service.generateRandomImage(),
+  //           }));
+  //           console.log(transformedData);
+  //           resolve(transformedData);
+  //         },
+  //         error: (error) => reject(error),
+  //       });
+  //     }),
+  // });
+
+  loadCompanies(): Promise<Company[]> {
+    return new Promise((resolve, reject) => {
+      this.service.getCompanies().subscribe({
+        next: (companies) => {
+          const transformedData = companies.map((company) => ({
+            ...company,
+            status: company.isActive ? 'Active' : 'InActive',
+            image: this.service.generateRandomImage(),
+          }));
+          resolve(transformedData);
+        },
+        error: (error) => reject(error),
+      });
+    });
+  }
+
   dataSource = new DataSource<Company[], string>({
     key: 'companyID',
-    load: () =>
-      new Promise((resolve, reject) => {
-        const cachedData = this.service.getCompanyList();
-        if (cachedData && cachedData.length > 0) {
-          resolve(cachedData);
-        } else {
-          this.service.getCompanies().subscribe({
-            next: (data: Company[]) => {
-              const transformedData = data.map((company) => ({
-                ...company,
-                status: company.isActive ? 'Active' : 'InActive',
-                image: this.service.generateRandomImage(),
-              }));
-              this.companyList = transformedData;
-              this.service.setCompanyList(this.companyList);
-              resolve(this.companyList);
-              console.log('Data loaded from API:', this.companyList);
-            },
-            error: ({ message }: any) => reject(message),
-          });
-        }
-      }),
+    load: async () => {
+      const companies = await this.loadCompanies();
+      return companies;
+    },
   });
 
   constructor(private service: BaseDataService) {}
@@ -104,7 +118,16 @@ export class CompanyListComponent {
   }
 
   refresh = () => {
-    this.dataGrid.instance.refresh();
+    this.service.clearCache('companyList');
+    this.loadCompanies().then((newData) => {
+      this.dataGrid.instance.option(
+        'dataSource',
+        new DataSource({
+          key: 'companyID',
+          load: () => newData,
+        })
+      );
+    });
   };
 
   rowClick(e: DxDataGridTypes.RowClickEvent) {
@@ -166,13 +189,27 @@ export class CompanyListComponent {
   }
 
   onClickSaveNewContact = () => {
-    const { firstName, lastName } = this.contactNewForm.getNewContactData();
-    notify(
-      {
-        message: `New contact "${firstName} ${lastName}" saved`,
-        position: { at: 'bottom center', my: 'bottom center' },
+    const body = this.companyNewForm.getNewCompanyData();
+    this.service.createCompany(body).subscribe({
+      next: (response) => {
+        notify(
+          {
+            message: `New company "${body.companyName}" saved`,
+            position: { at: 'top center', my: 'top   center' },
+          },
+          'success'
+        );
+        return response;
       },
-      'success'
-    );
+      error: (err) => {
+        notify(
+          {
+            message: `Some things went wrong`,
+            position: { at: 'top center', my: 'top   center' },
+          },
+          'error'
+        );
+      },
+    });
   };
 }

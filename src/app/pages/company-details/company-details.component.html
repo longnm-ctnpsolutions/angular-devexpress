@@ -2,7 +2,7 @@
   <div class="view-wrapper">
     <dx-toolbar class="toolbar-details theme-dependent">
       <dxi-item location="before">
-        <dx-button icon="arrowleft" stylingMode="text"></dx-button>
+        <dx-button icon="arrowleft" stylingMode="text" (onClick)="navigateToDetails()"></dx-button>
       </dxi-item>
       <dxi-item location="before" [text]="companyData?.companyName"></dxi-item>
       <dxi-item location="after" locateInMenu="auto">
@@ -11,14 +11,6 @@
           type="default"
           stylingMode="contained"
         ></dx-button>
-      </dxi-item>
-      <dxi-item location="after">
-        <dx-drop-down-button
-          text="Actions"
-          stylingMode="text"
-          [items]="['Assign to Me', 'Archive']"
-          [dropDownOptions]="{ width: 'auto' }"
-        ></dx-drop-down-button>
       </dxi-item>
       <dxi-item location="after" locateInMenu="auto">
         <div class="separator"></div>

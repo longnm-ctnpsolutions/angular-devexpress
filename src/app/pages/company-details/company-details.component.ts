@@ -19,6 +19,7 @@ import { Contact, Messages, Notes, Opportunities } from '../../types';
 import { BaseDataService } from '../../services/base-data.service';
 import { Company } from '../../types/company';
 import { CompanyFormComponent } from '../../components/library/company-form/company-form.component';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: './company-details.component.html',
@@ -62,7 +63,8 @@ export class CompanyDetailsComponent implements OnInit {
   transformedData: Company | undefined;
   constructor(
     private service: DataService,
-    private baseDataService: BaseDataService
+    private baseDataService: BaseDataService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -140,5 +142,9 @@ export class CompanyDetailsComponent implements OnInit {
   refresh = () => {
     this.isLoading = true;
     this.loadData();
+  };
+
+  navigateToDetails = () => {
+    this.router.navigate(['/company-list']);
   };
 }

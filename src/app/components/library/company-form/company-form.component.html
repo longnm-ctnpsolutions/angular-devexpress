@@ -130,11 +130,11 @@
         <dxi-item>
           <div *dxTemplate>
             <form-textbox
-              mask="+1(000)000-0000"
-              label="Phone"
-              [(value)]="companyData.phone"
               [isEditing]="isEditing"
-              [validators]="[]"
+              [label]="'Phone'"
+              [mask]="'(+84)000-000-0000'"
+              [(value)]="companyData.phone"
+              [isPhoneNumber]="true"
             ></form-textbox>
             <dx-button
               class="form-item-button"

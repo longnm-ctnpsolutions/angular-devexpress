@@ -23,6 +23,7 @@ export * from './library/contact-form/contact-form.component';
 export * from './library/user-avatar/user-avatar.component';
 export * from './library/company-panel/company-panel.component';
 export * from './library/company-form/company-form.component';
+export * from './library/company-new-form/company-new-form.component';
 
 export * from './utils/form-textbox/form-textbox.component';
 export * from './utils/form-popup/form-popup.component';

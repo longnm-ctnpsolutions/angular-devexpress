@@ -9,7 +9,7 @@
   [inputAttr]="{ class: 'form-editor-input' }"
   (onValueChanged)="valueChanged($event)"
 >
-  <dx-validator [validationRules]="validators"></dx-validator>
+  <dx-validator [validationRules]="dynamicValidators"></dx-validator>
   <dxi-button
     *ngIf="icon"
     name="icon"

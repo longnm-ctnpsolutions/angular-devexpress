@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Company } from '../types/company';
+import { map, Observable } from 'rxjs';
+import { Company, CompanyBase } from '../types/company';
 import { Injectable } from '@angular/core';
 import { SharedDataService } from './shared.service';
 
@@ -20,10 +20,29 @@ export class BaseDataService {
     return this.http.post<T>(`${API_URL}/`, body);
   }
 
-  public getCompanies = () => this.http.get<Company[]>(`${API_URL}/company`);
+  getCompanies(): Observable<Company[]> {
+    return this.sharedDataService.fetchDataWithCache(
+      'companyList',
+      this.http.get<Company[]>(`${API_URL}/company`).pipe(
+        map((companies) =>
+          companies.map((company) => ({
+            ...company,
+            image: this.generateRandomImage(),
+          }))
+        )
+      )
+    );
+  }
+
+  clearCache(key: string) {
+    return this.sharedDataService.clearCache(key);
+  }
 
   public getCompanie = (id: number) =>
     this.http.get<Company>(`${API_URL}/company/${id}`);
+
+  public createCompany = (companyData: CompanyBase) =>
+    this.http.post<Company>(`${API_URL}/company`, companyData);
 
   setCompanyData(data: Company | undefined) {
     this.sharedDataService.setCompanyData(data);

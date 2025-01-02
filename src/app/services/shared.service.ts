@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of, tap } from 'rxjs';
 import { Company } from '../types/company';
 
 @Injectable({
-  providedIn: 'root', // Khai báo ở đây để tạo 1 instance duy nhất
+  providedIn: 'root',
 })
 export class SharedDataService {
   private companyDataSubject = new BehaviorSubject<Company | undefined>(
@@ -82,5 +82,32 @@ export class SharedDataService {
   private loadDataFromLocalStorage(): Company | undefined {
     const data = localStorage.getItem('companyData');
     return data ? JSON.parse(data) : undefined;
+  }
+  clearCache(key: string) {
+    localStorage.removeItem(key);
+  }
+
+  fetchDataWithCache<T>(key: string, apiCall: Observable<T>): Observable<T> {
+    const storedData = localStorage.getItem(key);
+    const lastUpdated = localStorage.getItem(`${key}_lastUpdated`);
+    const currentTime = Date.now();
+    const maxAge = 1000 * 60 * 60;
+
+    if (
+      storedData &&
+      lastUpdated &&
+      currentTime - Number(lastUpdated) < maxAge
+    ) {
+      console.log('Using cached data from localStorage');
+      return of(JSON.parse(storedData));
+    } else {
+      console.log('Fetching data from API');
+      return apiCall.pipe(
+        tap((data) => {
+          localStorage.setItem(key, JSON.stringify(data));
+          localStorage.setItem(`${key}_lastUpdated`, String(Date.now()));
+        })
+      );
+    }
   }
 }
