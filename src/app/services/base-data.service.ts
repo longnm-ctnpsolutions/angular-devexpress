@@ -27,6 +27,7 @@ export class BaseDataService {
         map((companies) =>
           companies.map((company) => ({
             ...company,
+            status: company.isActive ? 'Active' : 'InActive',
             image: this.generateRandomImage(),
           }))
         )
@@ -43,6 +44,9 @@ export class BaseDataService {
 
   public createCompany = (companyData: CompanyBase) =>
     this.http.post<Company>(`${API_URL}/company`, companyData);
+
+  public updateCompanyPanel = (companyData: CompanyBase, id: number) =>
+    this.http.put<Company>(`${API_URL}/company/${id}`, companyData);
 
   setCompanyData(data: Company | undefined) {
     this.sharedDataService.setCompanyData(data);

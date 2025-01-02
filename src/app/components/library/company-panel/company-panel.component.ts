@@ -30,8 +30,10 @@ import { FormTextboxComponent } from '../../utils/form-textbox/form-textbox.comp
 import { FormPhotoComponent } from '../../utils/form-photo/form-photo.component';
 import { ContactStatusComponent } from '../../utils/contact-status/contact-status.component';
 import { BaseDataService } from '../../../services/base-data.service';
-import { Company } from '../../../types/company';
+import { Company, CompanyBase } from '../../../types/company';
 import { ChangeDetectorRef } from '@angular/core';
+import { get, omit } from 'lodash';
+import notify from 'devextreme/ui/notify';
 @Component({
   selector: 'company-panel',
   imports: [
@@ -69,9 +71,12 @@ export class CompanyPanelComponent
   private pinEventSubject = new Subject<boolean>();
 
   formData!: Company;
-
   contactData!: Company;
   companyData!: Company;
+  newEdit!: Company;
+
+  image!: string;
+
   pinned = false;
 
   isLoading = true;
@@ -159,6 +164,30 @@ export class CompanyPanelComponent
   onSaveClick = ({ validationGroup }: DxButtonTypes.ClickEvent) => {
     if (!validationGroup.validate().isValid) return;
     this.contactData = { ...this.formData };
+    const id: number = get(this.contactData, 'companyID');
+    const newCompany: CompanyBase = omit(this.contactData, 'image', 'status');
+    console.log(newCompany);
+    this.service.updateCompanyPanel(newCompany, id).subscribe({
+      next: (response) => {
+        notify(
+          {
+            message: `New company "${newCompany.companyName}" saved`,
+            position: { at: 'top center', my: 'top   center' },
+          },
+          'success'
+        );
+        return response;
+      },
+      error: (err) => {
+        notify(
+          {
+            message: `Some things went wrong`,
+            position: { at: 'top center', my: 'top   center' },
+          },
+          'error'
+        );
+      },
+    });
     this.isEditing = !this.isEditing;
   };
 

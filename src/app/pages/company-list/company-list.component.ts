@@ -67,34 +67,13 @@ export class CompanyListComponent {
   //User
   userList = userStatusList;
   filterUserStatusList = ['All', ...userStatusList];
-
-  // dataSource = new DataSource<Company[], string>({
-  //   key: 'companyID',
-  //   load: () =>
-  //     new Promise((resolve, reject) => {
-  //       this.service.getCompanies().subscribe({
-  //         next: (companies) => {
-  //           const transformedData = companies.map((company) => ({
-  //             ...company,
-  //             status: company.isActive ? 'Active' : 'InActive',
-  //             image: this.service.generateRandomImage(),
-  //           }));
-  //           console.log(transformedData);
-  //           resolve(transformedData);
-  //         },
-  //         error: (error) => reject(error),
-  //       });
-  //     }),
-  // });
-
+  
   loadCompanies(): Promise<Company[]> {
     return new Promise((resolve, reject) => {
       this.service.getCompanies().subscribe({
         next: (companies) => {
           const transformedData = companies.map((company) => ({
             ...company,
-            status: company.isActive ? 'Active' : 'InActive',
-            image: this.service.generateRandomImage(),
           }));
           resolve(transformedData);
         },
