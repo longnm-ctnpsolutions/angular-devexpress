@@ -18,7 +18,7 @@ import { DataService } from '../../services';
 import { Contact, Messages, Notes, Opportunities } from '../../types';
 
 @Component({
-  templateUrl: './department-details.component.html',
+  templateUrl: './employee-details.component.html',
   imports: [
     DxButtonModule,
     DxDropDownButtonModule,
@@ -34,10 +34,10 @@ import { Contact, Messages, Notes, Opportunities } from '../../types';
     CommonModule,
   ],
   standalone: true,
-  styleUrls: ['./department-details.component.scss'],
+  styleUrls: ['./employee-details.component.scss'],
   providers: [DataService],
 })
-export class DepartmentDetailsComponent implements OnInit {
+export class EmployeeDetailsComponent implements OnInit {
   contactId = 12;
 
   contactData: Contact | undefined;

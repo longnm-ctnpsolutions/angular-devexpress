@@ -5,7 +5,7 @@ export const userStatusList: string[] = ['Active', 'Inactive'];
 export type EmployeeStatus = (typeof userStatusList)[number];
 
 export type Employee = {
-  staffCode: number;
+  staffCode: string;
   phone: string;
   status: EmployeeStatus;
   fullName: string;

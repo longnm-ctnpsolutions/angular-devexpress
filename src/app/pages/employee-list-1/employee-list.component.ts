@@ -32,7 +32,7 @@ import { userStatusList } from '../../types/employee';
 type FilterContactStatus = ContactStatus | 'All';
 
 @Component({
-  templateUrl: './department-list.component.html',
+  templateUrl: './employee-list.component.html',
   standalone: true,
   imports: [
     DxButtonModule,
@@ -48,10 +48,10 @@ type FilterContactStatus = ContactStatus | 'All';
     ContactStatusComponent,
     CommonModule,
   ],
-  styleUrls: ['./department-list.component.scss'],
+  styleUrls: ['./employee-list.component.scss'],
   providers: [DataService],
 })
-export class DepartmentListComponent {
+export class EmployeeListV1Component {
   @ViewChild(DxDataGridComponent, { static: true })
   dataGrid!: DxDataGridComponent;
 

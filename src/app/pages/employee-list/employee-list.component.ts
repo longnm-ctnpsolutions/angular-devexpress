@@ -1,4 +1,4 @@
-import { Component, ViewChild, NgModule } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import {
   DxButtonModule,
   DxDataGridModule,
@@ -17,19 +17,15 @@ import { Workbook } from 'exceljs';
 import { saveAs } from 'file-saver-es';
 import { jsPDF } from 'jspdf';
 import notify from 'devextreme/ui/notify';
-import {
-  // CardActivitiesComponent,
-  ContactNewFormComponent,
-  ContactPanelComponent,
-  ContactStatusComponent,
-  FormPopupComponent,
-} from '../../components';
-import { Contact, ContactStatus, contactStatusList } from '../../types/contact';
+import { CompanyStatusComponent, FormPopupComponent } from '../../components';
 import { formatPhone } from '../../pipes/phone.pipe';
-import { DataService } from '../../services';
-import { userStatusList } from '../../types/employee';
+import { Employee, userStatusList } from '../../types/employee';
+import { BaseDataService } from '../../services/base-data.service';
+import { Company, CompanyStatus, companyStatusList } from '../../types/company';
+import { CompanyPanelComponent } from '../../components/library/company-panel/company-panel.component';
+import { CompanyNewFormComponent } from '../../components/library/company-new-form/company-new-form.component';
 
-type FilterContactStatus = ContactStatus | 'All';
+type FilterCompanyStatus = CompanyStatus | 'All';
 
 @Component({
   templateUrl: './employee-list.component.html',
@@ -41,68 +37,87 @@ type FilterContactStatus = ContactStatus | 'All';
     DxSelectBoxModule,
     DxTextBoxModule,
 
-    ContactPanelComponent,
-    ContactNewFormComponent,
     FormPopupComponent,
-    // CardActivitiesComponent,
-    ContactStatusComponent,
+    CompanyStatusComponent,
     CommonModule,
+    CompanyPanelComponent,
+    CompanyNewFormComponent,
   ],
   styleUrls: ['./employee-list.component.scss'],
-  providers: [DataService],
+  providers: [BaseDataService],
 })
 export class EmployeeListComponent {
   @ViewChild(DxDataGridComponent, { static: true })
   dataGrid!: DxDataGridComponent;
 
-  @ViewChild(ContactNewFormComponent, { static: false })
-  contactNewForm!: ContactNewFormComponent;
+  @ViewChild(CompanyNewFormComponent, { static: false })
+  companyNewForm!: CompanyNewFormComponent;
+  statusList = companyStatusList;
 
-  statusList = contactStatusList;
-
-  filterStatusList = ['All', ...contactStatusList];
+  filterStatusList = ['All', ...companyStatusList];
 
   isPanelOpened = false;
 
   isAddContactPopupOpened = false;
 
-  userId: number | null = null;
+  staffCode: number | null = null;
+
+  companyList!: Company[];
 
   //User
   userList = userStatusList;
   filterUserStatusList = ['All', ...userStatusList];
 
-  dataSource = new DataSource<Contact[], string>({
-    key: 'id',
-    load: () =>
-      new Promise((resolve, reject) => {
-        this.service.getContacts().subscribe({
-          next: (data: Contact[]) => resolve(data),
-          error: ({ message }) => reject(message),
-        });
-      }),
+  loadEmployees(): Promise<Employee[]> {
+    return new Promise((resolve, reject) => {
+      this.service.getEmployees().subscribe({
+        next: (emps) => {
+          const transformedData = emps.map((emp) => ({
+            ...emp,
+          }));
+          resolve(transformedData);
+        },
+        error: (error) => reject(error),
+      });
+    });
+  }
+
+  dataSource = new DataSource<Employee[], string>({
+    key: 'staffCode',
+    load: async () => {
+      const emps = await this.loadEmployees();
+      return emps;
+    },
   });
 
-  constructor(private service: DataService) {}
+  constructor(private service: BaseDataService) {}
 
   addContact() {
     this.isAddContactPopupOpened = true;
   }
 
   refresh = () => {
-    this.dataGrid.instance.refresh();
+    this.service.clearCache('empList');
+    this.loadEmployees().then((newData) => {
+      this.dataGrid.instance.option(
+        'dataSource',
+        new DataSource({
+          key: 'StaffCode',
+          load: () => newData,
+        })
+      );
+    });
   };
 
   rowClick(e: DxDataGridTypes.RowClickEvent) {
     const { data } = e;
-
-    this.userId = data.id;
+    this.staffCode = data.companyID;
     this.isPanelOpened = true;
   }
 
   onOpenedChange = (value: boolean) => {
     if (!value) {
-      this.userId = null;
+      this.staffCode = null;
     }
   };
 
@@ -111,7 +126,7 @@ export class EmployeeListComponent {
   };
 
   filterByStatus = (e: DxDropDownButtonTypes.SelectionChangedEvent) => {
-    const { item: status }: { item: FilterContactStatus } = e;
+    const { item: status }: { item: FilterCompanyStatus } = e;
 
     if (status === 'All') {
       this.dataGrid.instance.clearFilter();
@@ -130,11 +145,11 @@ export class EmployeeListComponent {
         jsPDFDocument: doc,
         component: e.component,
       }).then(() => {
-        doc.save('Contacts.pdf');
+        doc.save('Users.pdf');
       });
     } else {
       const workbook = new Workbook();
-      const worksheet = workbook.addWorksheet('Contacts');
+      const worksheet = workbook.addWorksheet('Users');
 
       exportDataGridToXLSX({
         component: e.component,
@@ -144,7 +159,7 @@ export class EmployeeListComponent {
         workbook.xlsx.writeBuffer().then((buffer) => {
           saveAs(
             new Blob([buffer], { type: 'application/octet-stream' }),
-            'Contacts.xlsx'
+            'Users.xlsx'
           );
         });
       });
@@ -153,13 +168,27 @@ export class EmployeeListComponent {
   }
 
   onClickSaveNewContact = () => {
-    const { firstName, lastName } = this.contactNewForm.getNewContactData();
-    notify(
-      {
-        message: `New contact "${firstName} ${lastName}" saved`,
-        position: { at: 'bottom center', my: 'bottom center' },
+    const body = this.companyNewForm.getNewCompanyData();
+    this.service.createCompany(body).subscribe({
+      next: (response) => {
+        notify(
+          {
+            message: `New User "${body.companyName}" saved`,
+            position: { at: 'top center', my: 'top   center' },
+          },
+          'success'
+        );
+        return response;
       },
-      'success'
-    );
+      error: (err) => {
+        notify(
+          {
+            message: `Some things went wrong`,
+            position: { at: 'top center', my: 'top   center' },
+          },
+          'error'
+        );
+      },
+    });
   };
 }

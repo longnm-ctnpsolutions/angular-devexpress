@@ -7,7 +7,7 @@
     [allowColumnReordering]="true"
     [focusedRowEnabled]="true"
     [showBorders]="true"
-    [(focusedRowKey)]="userId"
+    [(focusedRowKey)]="staffCode"
     (onRowClick)="rowClick($event)"
     (onExporting)="onExporting($event)"
   >
@@ -30,7 +30,7 @@
     <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
     <dxo-search-panel
       [visible]="true"
-      placeholder="Contact Search"
+      placeholder="Company search"
     ></dxo-search-panel>
     <dxo-export
       [enabled]="true"
@@ -41,7 +41,7 @@
 
     <dxo-toolbar>
       <dxi-item location="before">
-        <div class="grid-header">Employee List</div>
+        <div class="grid-header">Company List</div>
       </dxi-item>
       <dxi-item location="before" locateInMenu="auto">
         <dx-drop-down-button
@@ -55,7 +55,7 @@
       </dxi-item>
       <dxi-item location="after" locateInMenu="auto">
         <dx-button
-          text="Add Contact"
+          text="Add User"
           icon="plus"
           type="default"
           stylingMode="contained"
@@ -84,21 +84,35 @@
       <dxi-item name="columnChooserButton" locateInMenu="auto"></dxi-item>
       <dxi-item name="searchPanel" locateInMenu="auto"></dxi-item>
     </dxo-toolbar>
-
+   <dxi-column
+      dataField="staffCode"
+      caption="Staff Code"
+      [hidingPriority]="4"
+      [minWidth]="100"
+    ></dxi-column>
     <dxi-column
-      dataField="name"
-      caption="Name"
+      dataField="fullName"
+      caption="Full Name"
       sortOrder="asc"
       [hidingPriority]="5"
       [minWidth]="150"
-      cellTemplate="name"
+      cellTemplate="fullName"
     ></dxi-column>
+
+
+
+
+    <!-- Company Name -->
+
+     <!-- Address -->
     <dxi-column
-      dataField="company"
-      caption="Company"
-      [hidingPriority]="5"
+      dataField="address"
+      caption="Address"
+      [hidingPriority]="4"
       [minWidth]="150"
     ></dxi-column>
+
+     <!-- Status -->
     <dxi-column
       dataField="status"
       caption="Status"
@@ -107,67 +121,67 @@
       [hidingPriority]="3"
       [minWidth]="100"
     ></dxi-column>
-    <dxi-column
-      dataField="assignedTo"
-      caption="Assigned to"
-      [hidingPriority]="4"
-    ></dxi-column>
+
+     <!-- Phone -->
     <dxi-column
       dataField="phone"
       caption="Phone"
       [customizeText]="customizePhoneCell"
-      [hidingPriority]="2"
+      [hidingPriority]="5"
     ></dxi-column>
+
+    <!-- Email -->
+
     <dxi-column
       dataField="email"
       caption="Email"
-      [hidingPriority]="1"
+      [hidingPriority]="4"
     ></dxi-column>
 
-    <div *dxTemplate="let cellInfo of 'name'" class="name-template">
+    <div *dxTemplate="let cellInfo of 'fullName'" class="name-template">
       <div>
-        <div>{{ cellInfo.data.name }}</div>
-        <div class="position">{{ cellInfo.data.position }}</div>
+        <div>{{ cellInfo.data.fullName }}</div>
+        <div class="position">{{ cellInfo.data.industry }}</div>
       </div>
     </div>
 
     <div *dxTemplate="let cellInfo of 'cellStatus'">
-      <contact-status [value]="cellInfo.data.status"></contact-status>
+      <company-status [value]="cellInfo.data.status"></company-status>
     </div>
 
     <div *dxTemplate="let cellInfo of 'editCellStatus'">
       <dx-select-box
         class="edit-cell"
-        [(value)]="cellInfo.value"
+        [(value)]="cellInfo.status"
         [items]="statusList"
         (onValueChanged)="cellInfo.setValue($event.value)"
         (onSelectionChanged)="cellInfo.component.updateDimensions()"
         fieldTemplate="field"
       >
         <div *dxTemplate="let data of 'field'">
-          <contact-status [value]="cellInfo.value"></contact-status>
+          <company-status [value]="cellInfo.value"></company-status>
           <dx-text-box [readOnly]="true"></dx-text-box>
         </div>
         <div *dxTemplate="let data of 'item'">
-          <contact-status [value]="data"></contact-status>
+          <company-status [value]="data"></company-status>
         </div>
       </dx-select-box>
     </div>
   </dx-data-grid>
 
-  <contact-panel
-    [userId]="userId"
+  <company-panel
+    [userId]="staffCode"
     [(isOpened)]="isPanelOpened"
     (isOpenedChange)="onOpenedChange($event)"
     (pinnedChange)="onPinnedChange()"
   >
-  </contact-panel>
+  </company-panel>
 
   <form-popup
     [(visible)]="isAddContactPopupOpened"
     (save)="onClickSaveNewContact()"
-    titleText="New Contact"
+    titleText="New User"
   >
-    <contact-new-form></contact-new-form>
+    <company-new-form></company-new-form>
   </form-popup>
 </div>

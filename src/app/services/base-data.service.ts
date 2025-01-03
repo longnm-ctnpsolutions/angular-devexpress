@@ -3,6 +3,7 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Company, CompanyBase } from '../types/company';
 import { Injectable } from '@angular/core';
 import { SharedDataService } from './shared.service';
+import { Employee } from '../types/employee';
 
 const API_URL = 'http://localhost:5074/api';
 @Injectable()
@@ -39,6 +40,7 @@ export class BaseDataService {
       )
     );
   }
+
   getCompanies(): Observable<Company[]> {
     return this.sharedDataService.fetchDataWithCache(
       'companyList',
@@ -47,6 +49,21 @@ export class BaseDataService {
           companies.map((company) => ({
             ...company,
             status: company.isActive ? 'Active' : 'InActive',
+            image: this.generateRandomImage(),
+          }))
+        )
+      )
+    );
+  }
+
+  getEmployees(): Observable<Employee[]> {
+    return this.sharedDataService.fetchDataWithCache(
+      'empList',
+      this.http.get<Employee[]>(`${API_URL}/user`).pipe(
+        map((emps) =>
+          emps.map((emp) => ({
+            ...emp,
+            status: emp.staffCode ? 'Active' : 'InActive',
             image: this.generateRandomImage(),
           }))
         )

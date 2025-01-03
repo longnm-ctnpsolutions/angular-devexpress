@@ -35,9 +35,10 @@
           <dxi-item>
             <form-textbox
               *dxTemplate
-              label="Position"
+              label="Industry"
               [(value)]="companyData.industry"
               [isEditing]="isEditing"
+              [fieldName]="'Industry'"
             ></form-textbox>
           </dxi-item>
         </dxi-item>
@@ -49,6 +50,7 @@
             label="Company"
             [(value)]="companyData.companyName"
             [isEditing]="isEditing"
+            [fieldName]="'CompanyName'"
           ></form-textbox>
         </dxi-item>
 
@@ -60,6 +62,7 @@
             label="Address"
             [(value)]="companyData.address"
             [isEditing]="isEditing"
+            [fieldName]="'Address'"
           ></form-textbox>
         </dxi-item>
 
@@ -69,6 +72,7 @@
             label="City"
             [(value)]="companyData.companyName"
             [isEditing]="isEditing"
+            [fieldName]="'Address'"
           ></form-textbox>
         </dxi-item>
 
@@ -78,6 +82,7 @@
             label="State"
             [(value)]="companyData.companyName"
             [isEditing]="isEditing"
+            [fieldName]="'Address'"
           ></form-textbox>
         </dxi-item>
 
@@ -107,6 +112,7 @@
               [mask]="'(+84)000-000-0000'"
               [(value)]="companyData.phone"
               [isPhoneNumber]="true"
+              [fieldName]="'Phone'"
             ></form-textbox>
             <dx-button
               class="form-item-button"
@@ -125,7 +131,7 @@
               label="Email"
               [(value)]="companyData.email"
               [isEditing]="isEditing"
-              [validators]="[{ type: 'email' }]"
+              [fieldName]="'Email'"
             ></form-textbox>
             <dx-button
               class="form-item-button"

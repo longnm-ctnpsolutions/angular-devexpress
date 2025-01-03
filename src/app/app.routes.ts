@@ -17,7 +17,7 @@ import { CrmContactListComponent } from './pages/crm-contact-list/crm-contact-li
 import { CrmContactDetailsComponent } from './pages/crm-contact-details/crm-contact-details.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { EmployeeListComponent } from './pages/employee-list/employee-list.component';
-import { EmployeeDetailsComponent } from './pages/employee-details/employee-details.component';
+import { EmployeeDetailsComponent } from './pages/employee-details-1/employee-details.component';
 import { CompanyListComponent } from './pages/company-list/company-list.component';
 import { CompanyDetailsComponent } from './pages/company-details/company-details.component';
 import { DepartmentListComponent } from './pages/department-list/department-list.component';
@@ -134,7 +134,7 @@ export const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'crm-contact-list',
+        redirectTo: 'company-list',
         pathMatch: 'full',
       },
 
