@@ -43,6 +43,7 @@ export class FormTextboxComponent {
     | 'Address'
     | 'Phone'
     | 'Email'
+    | 'FullName'
     | 'Industry' = 'CompanyName';
 
   @Input() value!: string;
@@ -101,6 +102,16 @@ export class FormTextboxComponent {
             min: 5,
             max: 50,
             message: 'Industry must be between 5 and 50 characters',
+          },
+        ];
+      case 'FullName':
+        return [
+          { type: 'required', message: 'Full name is required' },
+          {
+            type: 'stringLength',
+            min: 5,
+            max: 50,
+            message: 'Full name must be between 2 and 50 characters',
           },
         ];
       default:

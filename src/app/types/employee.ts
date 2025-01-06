@@ -10,6 +10,8 @@ export type Employee = {
   status: EmployeeStatus;
   fullName: string;
   departmenID: number;
+  companyName: string;
   companyID: number;
   role: Role;
+  image: string;
 };

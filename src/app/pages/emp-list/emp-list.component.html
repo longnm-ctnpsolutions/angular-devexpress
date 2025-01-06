@@ -7,7 +7,7 @@
     [allowColumnReordering]="true"
     [focusedRowEnabled]="true"
     [showBorders]="true"
-    [(focusedRowKey)]="companyID"
+    [(focusedRowKey)]="staffCode"
     (onRowClick)="rowClick($event)"
     (onExporting)="onExporting($event)"
   >
@@ -90,20 +90,20 @@
 
   </dx-data-grid>
 
-  <company-panel
-    [userId]="companyID"
+  <emp-panel
+    [userId]="staffCode"
     [(isOpened)]="isPanelOpened"
     (isOpenedChange)="onOpenedChange($event)"
     (pinnedChange)="onPinnedChange()"
     (companyUpdated)="onCompanyUpdated()"
   >
-  </company-panel>
+  </emp-panel>
 
   <form-popup
     [(visible)]="isAddContactPopupOpened"
     (save)="onClickSaveNewContact()"
-    titleText="New Company"
+    titleText="New Employee"
   >
-    <company-new-form></company-new-form>
+    <emp-new-form></emp-new-form>
   </form-popup>
 </div>

@@ -1,0 +1,28 @@
+<dx-scroll-view class="view-wrapper-scroll">
+  <div class="view-wrapper">
+    <dx-toolbar class="toolbar-details theme-dependent">
+      <dxi-item location="before">
+        <dx-button icon="arrowleft" stylingMode="text" (onClick)="navigateToDetails()"></dx-button>
+      </dxi-item>
+      <dxi-item location="before" [text]="empData?.fullName"></dxi-item>
+      <dxi-item location="after" locateInMenu="auto">
+        <dx-button
+          text="Terminate"
+          type="default"
+          stylingMode="contained"
+          (click)="deleteCompany()"
+        ></dx-button>
+      </dxi-item>
+    </dx-toolbar>
+
+    <div class="panels theme-dependent">
+      <div class="left">
+        <emp-form
+           *ngIf="empData"
+            [empData]="empData"
+            [isLoading]="isLoading"
+        ></emp-form>
+      </div>
+    </div>
+  </div>
+</dx-scroll-view>

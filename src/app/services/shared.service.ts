@@ -1,6 +1,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, tap } from 'rxjs';
 import { Company } from '../types/company';
+import { Employee } from '../types/employee';
 
 @Injectable({
   providedIn: 'root',
@@ -8,6 +9,9 @@ import { Company } from '../types/company';
 export class SharedDataService {
   private companyDataSubject = new BehaviorSubject<Company | undefined>(
     this.loadDataFromLocalStorage()
+  );
+  private empDataSubject = new BehaviorSubject<Employee | undefined>(
+    this.loadDataFromLocalStorageV2()
   );
 
   private companyUpdatedSource = new BehaviorSubject<void>(undefined);
@@ -24,6 +28,15 @@ export class SharedDataService {
 
   getCompanyData() {
     return this.companyDataSubject.asObservable();
+  }
+
+  setEmpData(data: Employee | undefined) {
+    this.empDataSubject.next(data);
+    localStorage.setItem('empData', JSON.stringify(data));
+  }
+
+  getEmpData() {
+    return this.empDataSubject.asObservable();
   }
 
   generateRandomImage(): string {
@@ -70,6 +83,11 @@ export class SharedDataService {
 
   private loadDataFromLocalStorage(): Company | undefined {
     const data = localStorage.getItem('companyData');
+    return data ? JSON.parse(data) : undefined;
+  }
+
+  private loadDataFromLocalStorageV2(): Employee | undefined {
+    const data = localStorage.getItem('empData');
     return data ? JSON.parse(data) : undefined;
   }
 }

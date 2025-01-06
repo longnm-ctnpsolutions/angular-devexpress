@@ -20,7 +20,7 @@ export const navigation = [
     path: '',
     items: [
       {
-        text: 'Contact List',
+        text: 'Employee List',
         path: '/emp-list',
       },
       // {

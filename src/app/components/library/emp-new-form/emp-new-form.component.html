@@ -1,0 +1,59 @@
+<dx-form
+  class="plain-styled-form"
+  [screenByWidth]="getSizeQualifier"
+  id="form"
+  [formData]="newData"
+>
+  <dxi-item itemType="group" [colCount]="4">
+    <dxo-col-count-by-screen
+      [xs]="1"
+      [sm]="2"
+      [md]="2"
+      [lg]="2"
+    ></dxo-col-count-by-screen>
+    <dxi-item [colSpan]="2">
+      <div *dxTemplate>
+        <form-textbox
+          label="Company Name"
+          [(value)]="newData.companyName"
+          [isEditing]="true"
+          [fieldName]="'CompanyName'"
+        >
+        </form-textbox>
+      </div>
+    </dxi-item>
+  </dxi-item>
+
+  <dxi-item itemType="group" cssClass="contact-fields-group">
+    <dxo-col-count-by-screen
+      [xs]="1"
+      [sm]="2"
+      [md]="2"
+      [lg]="2"
+    ></dxo-col-count-by-screen>
+    <dxi-item>
+      <div *dxTemplate>
+        <form-textbox
+          icon="accountbox"
+          label="Full Name"
+          [(value)]="newData.address"
+          [isEditing]="true"
+          [fieldName]="'FullName'"
+        ></form-textbox>
+      </div>
+    </dxi-item>
+    <dxi-item>
+      <div *dxTemplate>
+        <form-textbox
+          icon="tel"
+          label="Phone"
+          mask="+84(000)000-0000"
+          [(value)]="newData.phone"
+          [isEditing]="true"
+          [fieldName]="'Phone'"
+        >
+        </form-textbox>
+      </div>
+    </dxi-item>
+  </dxi-item>
+</dx-form>

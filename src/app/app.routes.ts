@@ -20,6 +20,7 @@ import { CompanyListComponent } from './pages/company-list/company-list.componen
 import { CompanyDetailsComponent } from './pages/company-details/company-details.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { EmpListComponent } from './pages/emp-list/emp-list.component';
+import { EmpDetailsComponent } from './pages/emp-details/emp-details.component';
 
 export const routes: Routes = [
   {
@@ -74,6 +75,12 @@ export const routes: Routes = [
       {
         path: 'emp-list',
         component: EmpListComponent,
+        canActivate: [AuthGuardService],
+        data: { roles: [] },
+      },
+      {
+        path: 'emp-details',
+        component: EmpDetailsComponent,
         canActivate: [AuthGuardService],
         data: { roles: [] },
       },

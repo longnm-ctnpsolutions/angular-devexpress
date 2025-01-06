@@ -23,6 +23,8 @@ import { BaseDataService } from '../../services/base-data.service';
 import { Company, CompanyStatus, companyStatusList } from '../../types/company';
 import { CompanyPanelComponent } from '../../components/library/company-panel/company-panel.component';
 import { CompanyNewFormComponent } from '../../components/library/company-new-form/company-new-form.component';
+import { EmpPanelComponent } from '../../components/library/emp-panel/emp-panel.component';
+import { EmpNewFormComponent } from '../../components/library/emp-new-form/emp-new-form.component';
 
 @Component({
   templateUrl: './emp-list.component.html',
@@ -36,8 +38,8 @@ import { CompanyNewFormComponent } from '../../components/library/company-new-fo
 
     FormPopupComponent,
     CommonModule,
-    CompanyPanelComponent,
-    CompanyNewFormComponent,
+    EmpPanelComponent,
+    EmpNewFormComponent,
   ],
   styleUrls: ['./emp-list.component.scss'],
   providers: [BaseDataService],
@@ -54,7 +56,7 @@ export class EmpListComponent {
 
   isAddContactPopupOpened = false;
 
-  companyID: number | null = null;
+  staffCode: number | null = null;
 
   companyList!: Company[];
   constructor(private service: BaseDataService) {}
@@ -97,13 +99,13 @@ export class EmpListComponent {
 
   rowClick(e: DxDataGridTypes.RowClickEvent) {
     const { data } = e;
-    this.companyID = data.companyID;
+    this.staffCode = data.staffCode;
     this.isPanelOpened = true;
   }
 
   onOpenedChange = (value: boolean) => {
     if (!value) {
-      this.companyID = null;
+      this.staffCode = null;
     }
   };
 

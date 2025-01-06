@@ -16,12 +16,23 @@ export class BaseDataService {
   public getCompanie = (id: number) =>
     this.http.get<Company>(`${API_URL}/company/${id}`);
 
+  public getEmployeById = (id: string) =>
+    this.http.get<Employee>(`${API_URL}/user/${id}`);
+
   setCompanyData(data: Company | undefined) {
     this.sharedDataService.setCompanyData(data);
   }
 
   getCompanyData() {
     return this.sharedDataService.getCompanyData();
+  }
+
+  setEmpData(data: Employee | undefined) {
+    this.sharedDataService.setEmpData(data);
+  }
+
+  getEmpData() {
+    return this.sharedDataService.getEmpData();
   }
 
   notifyCompanyUpdated() {

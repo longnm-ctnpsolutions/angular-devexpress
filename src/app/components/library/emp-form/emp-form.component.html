@@ -1,0 +1,81 @@
+<div id="contact-form">
+  <dx-validation-group>
+    <toolbar-form
+      [isEditing]="isEditing"
+      titleClass="dx-form-group-caption"
+      (editingCancelled)="handleCancelClick()"
+      (editModeToggled)="handleEditClick()"
+      (saveButtonClicked)="handleSaveClick($event)"
+    >
+    </toolbar-form>
+
+    <dx-form
+      *ngIf="empData"
+      class="form last plain-styled-form"
+      [formData]="empData"
+      labelMode="floating"
+      [class.view-mode]="!isEditing"
+    >
+      <dxi-item itemType="group" [colCount]="4" cssClass="contact-fields-group">
+        <dxo-col-count-by-screen [xs]="2"></dxo-col-count-by-screen>
+        <dxi-item [colSpan]="4">
+          <div *dxTemplate class="image-form">
+            <form-photo [link]="empData.image" [size]="184"></form-photo>
+          </div>
+        </dxi-item>
+      </dxi-item>
+
+      <dxi-item itemType="group" [colCount]="2" caption="Contacts">
+        <dxo-col-count-by-screen [xs]="2"></dxo-col-count-by-screen>
+        <dxi-item cssClass="accent" [colSpan]="4">
+          <form-textbox
+            *dxTemplate
+            label="Company Name"
+            [(value)]="empData.companyName"
+            [isEditing]="isEditing"
+            [fieldName]="'CompanyName'"
+          ></form-textbox>
+        </dxi-item>
+        <dxi-item [colSpan]="4">
+          <div *dxTemplate>
+            <form-textbox
+              [isEditing]="!isEditing"
+              [label]="'StaffCode'"
+              [(value)]="empData.staffCode"
+            ></form-textbox>
+          </div>
+        </dxi-item>
+      </dxi-item>
+
+      <dxi-item itemType="group" [colCount]="2" cssClass="contact-fields-group">
+        <dxo-col-count-by-screen [xs]="2"></dxo-col-count-by-screen>
+        <dxi-item [colSpan]="4">
+          <div *dxTemplate>
+            <form-textbox
+              [isEditing]="isEditing"
+              [label]="'Phone Contact'"
+              [mask]="'(+84)000-000-0000'"
+              [(value)]="empData.phone"
+              [isPhoneNumber]="true"
+              [fieldName]="'Phone'"
+            ></form-textbox>
+            <dx-button
+              class="form-item-button"
+              stylingMode="outlined"
+              [visible]="!isEditing"
+              [text]="'Call'"
+              [icon]="'tel'"
+              [type]="'default'"
+            ></dx-button>
+          </div>
+        </dxi-item>
+      </dxi-item>
+    </dx-form>
+  </dx-validation-group>
+  <dx-load-panel
+    container="#contact-form"
+    [position]="{ of: '#contact-form' }"
+    [visible]="!empData || isLoading || false"
+    [showPane]="false"
+  ></dx-load-panel>
+</div>
