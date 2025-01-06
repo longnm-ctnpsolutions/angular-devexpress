@@ -43,16 +43,6 @@
       <dxi-item location="before">
         <div class="grid-header">Company List</div>
       </dxi-item>
-      <dxi-item location="before" locateInMenu="auto">
-        <dx-drop-down-button
-          stylingMode="text"
-          [useSelectMode]="true"
-          [items]="filterStatusList"
-          [dropDownOptions]="{ width: 'auto' }"
-          [selectedItemKey]="filterStatusList[0]"
-          (onSelectionChanged)="filterByStatus($event)"
-        ></dx-drop-down-button>
-      </dxi-item>
       <dxi-item location="after" locateInMenu="auto">
         <dx-button
           text="Add Company"
@@ -62,18 +52,6 @@
           (onClick)="addContact()"
         ></dx-button>
       </dxi-item>
-      <dxi-item
-        location="after"
-        locateInMenu="auto"
-        showText="inMenu"
-        widget="dxButton"
-        [options]="{
-          text: 'Refresh',
-          icon: 'refresh',
-          onClick: refresh,
-          stylingMode: 'text'
-        }"
-      ></dxi-item>
       <dxi-item location="after" locateInMenu="auto">
         <div class="separator"></div>
       </dxi-item>
@@ -100,25 +78,11 @@
       [minWidth]="150"
     ></dxi-column>
     <dxi-column
-      dataField="status"
-      caption="Status"
-      cellTemplate="cellStatus"
-      editCellTemplate="editCellStatus"
-      [hidingPriority]="3"
-      [minWidth]="100"
-    ></dxi-column>
-    <dxi-column
       dataField="phone"
       caption="Phone"
       [customizeText]="customizePhoneCell"
       [hidingPriority]="5"
     ></dxi-column>
-    <dxi-column
-      dataField="email"
-      caption="Email"
-      [hidingPriority]="4"
-    ></dxi-column>
-
     <div *dxTemplate="let cellInfo of 'companyName'" class="name-template">
       <div>
         <div>{{ cellInfo.data.companyName }}</div>

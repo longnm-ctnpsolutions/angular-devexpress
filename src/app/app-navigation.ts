@@ -29,19 +29,4 @@ export const navigation = [
       // },
     ],
   },
-  {
-    text: 'EmployeeV2',
-    icon: 'user',
-    path: '',
-    items: [
-      {
-        text: 'Employee List',
-        path: '/employee-list',
-      },
-      // {
-      //   text: 'Employee Details',
-      //   path: '/employee-details',
-      // },
-    ],
-  },
 ];

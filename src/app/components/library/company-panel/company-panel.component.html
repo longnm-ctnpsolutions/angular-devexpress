@@ -43,18 +43,8 @@
                   <dxi-item cssClass="accent">
                     <div *dxTemplate>
                       <form-textbox
-                        label="Company"
+                        label="Company Name"
                         [(value)]="formData.companyName"
-                        [isEditing]="isEditing"
-                      ></form-textbox>
-                    </div>
-                  </dxi-item>
-
-                  <dxi-item>
-                    <div *dxTemplate>
-                      <form-textbox
-                        label="Position"
-                        [(value)]="formData.industry"
                         [isEditing]="isEditing"
                       ></form-textbox>
                     </div>
@@ -72,16 +62,6 @@
                       [isEditing]="isEditing"
                     >
                     </form-textbox>
-                  </div>
-                </dxi-item>
-                <dxi-item>
-                  <div *dxTemplate>
-                    <form-textbox
-                      icon="email"
-                      [(value)]="formData.email"
-                      [isEditing]="isEditing"
-                      [validators]="[{ type: 'email' }]"
-                    ></form-textbox>
                   </div>
                 </dxi-item>
                 <dxi-item>

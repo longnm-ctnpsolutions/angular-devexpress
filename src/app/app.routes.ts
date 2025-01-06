@@ -16,12 +16,8 @@ import { AppResetPasswordComponent } from './pages/reset-password-form/reset-pas
 import { CrmContactListComponent } from './pages/crm-contact-list/crm-contact-list.component';
 import { CrmContactDetailsComponent } from './pages/crm-contact-details/crm-contact-details.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
-import { EmployeeListComponent } from './pages/employee-list/employee-list.component';
-import { EmployeeDetailsComponent } from './pages/employee-details-1/employee-details.component';
 import { CompanyListComponent } from './pages/company-list/company-list.component';
 import { CompanyDetailsComponent } from './pages/company-details/company-details.component';
-import { DepartmentListComponent } from './pages/department-list/department-list.component';
-import { DepartmentDetailsComponent } from './pages/department-details/department-details.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 export const routes: Routes = [
@@ -73,35 +69,6 @@ export const routes: Routes = [
         canActivate: [AuthGuardService],
         data: { roles: [] },
       },
-
-      //Employee
-      {
-        path: 'employee-list',
-        component: EmployeeListComponent,
-        canActivate: [AuthGuardService],
-        data: { roles: [] },
-      },
-      {
-        path: 'employee-details',
-        component: EmployeeDetailsComponent,
-        canActivate: [AuthGuardService],
-        data: { roles: [] },
-      },
-
-      // //Department
-      // {
-      //   path: 'department-list',
-      //   component: DepartmentListComponent,
-      //   canActivate: [AuthGuardService],
-      //   data: { roles: [] },
-      // },
-      // {
-      //   path: 'department-details',
-      //   component: DepartmentDetailsComponent,
-      //   canActivate: [AuthGuardService],
-      //   data: { roles: [] },
-      // },
-
       {
         path: 'crm-contact-list',
         component: CrmContactListComponent,

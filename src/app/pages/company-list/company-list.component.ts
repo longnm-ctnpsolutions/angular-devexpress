@@ -25,8 +25,6 @@ import { Company, CompanyStatus, companyStatusList } from '../../types/company';
 import { CompanyPanelComponent } from '../../components/library/company-panel/company-panel.component';
 import { CompanyNewFormComponent } from '../../components/library/company-new-form/company-new-form.component';
 
-type FilterCompanyStatus = CompanyStatus | 'All';
-
 @Component({
   templateUrl: './company-list.component.html',
   standalone: true,
@@ -54,8 +52,6 @@ export class CompanyListComponent {
   companyNewForm!: CompanyNewFormComponent;
   statusList = companyStatusList;
 
-  filterStatusList = ['All', ...companyStatusList];
-
   isPanelOpened = false;
 
   isAddContactPopupOpened = false;
@@ -64,10 +60,6 @@ export class CompanyListComponent {
 
   companyList!: Company[];
 
-  //User
-  userList = userStatusList;
-  filterUserStatusList = ['All', ...userStatusList];
-  
   loadCompanies(): Promise<Company[]> {
     return new Promise((resolve, reject) => {
       this.service.getCompanies().subscribe({
@@ -96,19 +88,6 @@ export class CompanyListComponent {
     this.isAddContactPopupOpened = true;
   }
 
-  refresh = () => {
-    this.service.clearCache('companyList');
-    this.loadCompanies().then((newData) => {
-      this.dataGrid.instance.option(
-        'dataSource',
-        new DataSource({
-          key: 'companyID',
-          load: () => newData,
-        })
-      );
-    });
-  };
-
   rowClick(e: DxDataGridTypes.RowClickEvent) {
     const { data } = e;
     this.companyID = data.companyID;
@@ -123,16 +102,6 @@ export class CompanyListComponent {
 
   onPinnedChange = () => {
     this.dataGrid.instance.updateDimensions();
-  };
-
-  filterByStatus = (e: DxDropDownButtonTypes.SelectionChangedEvent) => {
-    const { item: status }: { item: FilterCompanyStatus } = e;
-
-    if (status === 'All') {
-      this.dataGrid.instance.clearFilter();
-    } else {
-      this.dataGrid.instance.filter(['status', '=', status]);
-    }
   };
 
   customizePhoneCell = ({ value }: { value: string | number }) =>

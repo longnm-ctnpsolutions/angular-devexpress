@@ -137,17 +137,17 @@ export class CompanyPanelComponent
         this.cdr.detectChanges();
       });
     } else {
-      const companyById = this.service
-        .getCompanyList()
-        .find((company) => company.companyID === id);
-      if (companyById) {
-        this.service.setCompanyData(companyById);
-        this.formData = companyById;
-        this.contactData = { ...this.formData };
-      }
-      this.isLoading = false;
-      this.isEditing = false;
-      this.cdr.detectChanges();
+      this.service.getCompanies().subscribe((companies) => {
+        const companyById = companies.find((c) => c.companyID == id);
+        if (companyById) {
+          this.service.setCompanyData(companyById);
+          this.formData = companyById;
+          this.contactData = { ...this.formData };
+        }
+        this.isLoading = false;
+        this.isEditing = false;
+        this.cdr.detectChanges();
+      });
     }
   };
 

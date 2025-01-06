@@ -16,38 +16,19 @@
       labelMode="floating"
       [class.view-mode]="!isEditing"
     >
-      <dxi-item itemType="group" [colCount]="2">
+      <dxi-item itemType="group" [colCount]="4" cssClass="contact-fields-group" >
         <dxo-col-count-by-screen [xs]="2"></dxo-col-count-by-screen>
-        <dxi-item>
-          <div *dxTemplate>
+        <dxi-item [colSpan]="4" >
+          <div *dxTemplate class="image-form">
             <form-photo [link]="companyData.image" [size]="184"></form-photo>
           </div>
-        </dxi-item>
-        <dxi-item itemType="group">
-          <dxi-item>
-            <status-select-box
-              *dxTemplate
-              classList="contact-status"
-              [(value)]="companyData.status"
-              [readOnly]="!isEditing"
-            ></status-select-box>
-          </dxi-item>
-          <dxi-item>
-            <form-textbox
-              *dxTemplate
-              label="Industry"
-              [(value)]="companyData.industry"
-              [isEditing]="isEditing"
-              [fieldName]="'Industry'"
-            ></form-textbox>
-          </dxi-item>
         </dxi-item>
       </dxi-item>
 
         <dxi-item cssClass="accent" [colSpan]="4">
           <form-textbox
             *dxTemplate
-            label="Company"
+            label="Company Name"
             [(value)]="companyData.companyName"
             [isEditing]="isEditing"
             [fieldName]="'CompanyName'"
@@ -56,59 +37,24 @@
 
       <dxi-item itemType="group" [colCount]="4" caption="Contacts">
         <dxo-col-count-by-screen [xs]="2"></dxo-col-count-by-screen>
-        <dxi-item [colSpan]="4">
+        <dxi-item  [colSpan]="4">
           <form-textbox
             *dxTemplate
-            label="Address"
+            label="Company Address"
             [(value)]="companyData.address"
             [isEditing]="isEditing"
             [fieldName]="'Address'"
           ></form-textbox>
         </dxi-item>
-
-        <dxi-item [colSpan]="2">
-          <form-textbox
-            *dxTemplate
-            label="City"
-            [(value)]="companyData.companyName"
-            [isEditing]="isEditing"
-            [fieldName]="'Address'"
-          ></form-textbox>
-        </dxi-item>
-
-        <dxi-item>
-          <form-textbox
-            *dxTemplate
-            label="State"
-            [(value)]="companyData.companyName"
-            [isEditing]="isEditing"
-            [fieldName]="'Address'"
-          ></form-textbox>
-        </dxi-item>
-
-        <!-- <dxi-item>
-          <dx-number-box
-            *dxTemplate
-            label="Zip Code"
-            stylingMode="filled"
-            valueChangeEvent="keyup input change"
-            [(value)]="companyData.companyID"
-            [readOnly]="!isEditing"
-            [elementAttr]="{ class: 'form-editor' }"
-            [inputAttr]="{ class: 'form-editor-input' }"
-          >
-            <dx-validator [validationRules]="[zipCodeValidator]"></dx-validator>
-          </dx-number-box>
-        </dxi-item> -->
       </dxi-item>
 
-      <dxi-item itemType="group" [colCount]="2" cssClass="contact-fields-group">
+      <dxi-item itemType="group" [colCount]="4" cssClass="contact-fields-group">
         <dxo-col-count-by-screen [xs]="2"></dxo-col-count-by-screen>
-        <dxi-item>
+        <dxi-item [colSpan]="4">
           <div *dxTemplate>
             <form-textbox
               [isEditing]="isEditing"
-              [label]="'Phone'"
+              [label]="'Phone Contact'"
               [mask]="'(+84)000-000-0000'"
               [(value)]="companyData.phone"
               [isPhoneNumber]="true"
@@ -120,25 +66,6 @@
               [visible]="!isEditing"
               [text]="'Call'"
               [icon]="'tel'"
-              [type]="'default'"
-            ></dx-button>
-          </div>
-        </dxi-item>
-
-        <dxi-item>
-          <div *dxTemplate>
-            <form-textbox
-              label="Email"
-              [(value)]="companyData.email"
-              [isEditing]="isEditing"
-              [fieldName]="'Email'"
-            ></form-textbox>
-            <dx-button
-              class="form-item-button"
-              stylingMode="outlined"
-              [visible]="!isEditing"
-              [text]="'Send Email'"
-              [icon]="'email'"
               [type]="'default'"
             ></dx-button>
           </div>

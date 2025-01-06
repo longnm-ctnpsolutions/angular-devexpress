@@ -10,19 +10,6 @@ export class SharedDataService {
     this.loadDataFromLocalStorage()
   );
 
-  private companyList = new BehaviorSubject<Company[]>(
-    this.loadDataListFromLocalStorage() || []
-  );
-
-  setCompanyList(data: Company[]) {
-    this.companyList.next(data);
-    localStorage.setItem('companyList', JSON.stringify(data));
-  }
-
-  getCompanyList(): Company[] {
-    return this.companyList.getValue();
-  }
-
   setCompanyData(data: Company | undefined) {
     this.companyDataSubject.next(data);
     localStorage.setItem('companyData', JSON.stringify(data));
@@ -74,40 +61,8 @@ export class SharedDataService {
     return imageUrl;
   }
 
-  private loadDataListFromLocalStorage(): Company[] | [] {
-    const data = localStorage.getItem('companyList');
-    return data ? JSON.parse(data) : [];
-  }
-
   private loadDataFromLocalStorage(): Company | undefined {
     const data = localStorage.getItem('companyData');
     return data ? JSON.parse(data) : undefined;
-  }
-  clearCache(key: string) {
-    localStorage.removeItem(key);
-  }
-
-  fetchDataWithCache<T>(key: string, apiCall: Observable<T>): Observable<T> {
-    const storedData = localStorage.getItem(key);
-    const lastUpdated = localStorage.getItem(`${key}_lastUpdated`);
-    const currentTime = Date.now();
-    const maxAge = 1000 * 60 * 60;
-
-    if (
-      storedData &&
-      lastUpdated &&
-      currentTime - Number(lastUpdated) < maxAge
-    ) {
-      console.log('Using cached data from localStorage');
-      return of(JSON.parse(storedData));
-    } else {
-      console.log('Fetching data from API');
-      return apiCall.pipe(
-        tap((data) => {
-          localStorage.setItem(key, JSON.stringify(data));
-          localStorage.setItem(`${key}_lastUpdated`, String(Date.now()));
-        })
-      );
-    }
   }
 }

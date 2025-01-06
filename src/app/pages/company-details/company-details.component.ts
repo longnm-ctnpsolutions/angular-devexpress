@@ -7,13 +7,7 @@ import {
 } from 'devextreme-angular';
 import { forkJoin, map } from 'rxjs';
 import { DxToolbarModule } from 'devextreme-angular/ui/toolbar';
-import {
-  // CardActivitiesComponent,
-  // CardMessagesComponent,
-  // CardNotesComponent,
-  ContactCardsComponent,
-  ContactFormComponent,
-} from '../../components';
+import { ContactCardsComponent } from '../../components';
 import { DataService } from '../../services';
 import { Contact, Messages, Notes, Opportunities } from '../../types';
 import { BaseDataService } from '../../services/base-data.service';
@@ -29,11 +23,9 @@ import notify from 'devextreme/ui/notify';
     DxDropDownButtonModule,
     DxScrollViewModule,
     DxToolbarModule,
+
     CompanyFormComponent,
     ContactCardsComponent,
-    // CardActivitiesComponent,
-    // CardNotesComponent,
-    // CardMessagesComponent,
     CommonModule,
     CompanyFormComponent,
   ],
@@ -62,7 +54,6 @@ export class CompanyDetailsComponent implements OnInit {
 
   companyData: Company | undefined;
 
-  transformedData: Company | undefined;
   constructor(
     private service: DataService,
     private baseDataService: BaseDataService,
@@ -130,26 +121,26 @@ export class CompanyDetailsComponent implements OnInit {
 
   loadUserById = (id: number) => {
     this.isLoading = true;
-    const companyById = this.baseDataService
-      .getCompanyList()
-      .find((company) => company.companyID === id);
-    if (companyById) {
-      const transformedData = {
-        ...companyById,
-        status: companyById.isActive ? 'Active' : 'InActive',
-      };
-      return (this.companyData = transformedData);
-    } else {
+    const companyData = this.baseDataService.getCompanyData();
+    if (companyData === undefined) {
       this.baseDataService.getCompanie(id).subscribe((data) => {
         const transformedData = {
           ...data,
-          status: data.isActive ? 'Active' : 'InActive',
           image: this.baseDataService.generateRandomImage(),
         };
-        return transformedData;
+        this.companyData = transformedData;
+        this.isLoading = false;
+      });
+    } else {
+      this.baseDataService.getCompanies().subscribe((companies) => {
+        const companyById = companies.find((c) => c.companyID == id);
+        if (companyById) {
+          this.baseDataService.setCompanyData(companyById);
+          this.companyData = { ...companyById };
+        }
+        this.isLoading = false;
       });
     }
-    return (this.companyData = this.transformedData);
   };
 
   loadData = () => {
@@ -183,7 +174,6 @@ export class CompanyDetailsComponent implements OnInit {
       });
     this.baseDataService.getCompanyData().subscribe((data) => {
       this.companyDataLocal = data;
-      console.log('Company Data on init:', this.companyDataLocal);
     });
     this.service.getContact(this.contactId).subscribe((data) => {
       this.contactName = data.name;
