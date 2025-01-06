@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
 import { Company, CompanyBase } from '../types/company';
 import { Injectable } from '@angular/core';
 import { SharedDataService } from './shared.service';
@@ -8,7 +8,7 @@ import { Employee } from '../types/employee';
 const API_URL = 'http://localhost:5074/api';
 @Injectable()
 export class BaseDataService {
-  companyUpdated$: any;
+  companyUpdated$: Subject<void> = new Subject<void>();
   constructor(
     private http: HttpClient,
     private sharedDataService: SharedDataService
@@ -32,6 +32,17 @@ export class BaseDataService {
     return this.http.get<Company[]>(`${API_URL}/company`).pipe(
       map((companies) => {
         return companies.map((item) => ({
+          ...item,
+          image: this.generateRandomImage(),
+        }));
+      })
+    );
+  }
+
+  getEmployees(): Observable<Employee[]> {
+    return this.http.get<Employee[]>(`${API_URL}/user`).pipe(
+      map((emps) => {
+        return emps.map((item) => ({
           ...item,
           image: this.generateRandomImage(),
         }));

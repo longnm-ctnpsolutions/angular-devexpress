@@ -21,7 +21,7 @@ export const navigation = [
     items: [
       {
         text: 'Contact List',
-        path: '/crm-contact-list',
+        path: '/emp-list',
       },
       // {
       //   text: 'Contact Details',

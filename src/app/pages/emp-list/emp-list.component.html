@@ -30,7 +30,7 @@
     <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
     <dxo-search-panel
       [visible]="true"
-      placeholder="Company search"
+      placeholder="Employee search"
     ></dxo-search-panel>
     <dxo-export
       [enabled]="true"
@@ -41,11 +41,11 @@
 
     <dxo-toolbar>
       <dxi-item location="before">
-        <div class="grid-header">Company List</div>
+        <div class="grid-header">Employee List</div>
       </dxi-item>
       <dxi-item location="after" locateInMenu="auto">
         <dx-button
-          text="Add Company"
+          text="Add Employee"
           icon="plus"
           type="default"
           stylingMode="contained"
@@ -62,18 +62,18 @@
       <dxi-item name="columnChooserButton" locateInMenu="auto"></dxi-item>
       <dxi-item name="searchPanel" locateInMenu="auto"></dxi-item>
     </dxo-toolbar>
-
     <dxi-column
-      dataField="companyName"
-      caption="Company Name"
+      dataField="staffCode"
+      caption="Code Staff"
       sortOrder="asc"
+      alignment="left"
       [hidingPriority]="3"
-      [minWidth]="150"
+      [width]="150"
     ></dxi-column>
     <dxi-column
-      dataField="address"
-      caption="Address"
-      [hidingPriority]="3"
+      dataField="fullName"
+      caption="Full Name"
+      [hidingPriority]="1"
       [minWidth]="150"
     ></dxi-column>
     <dxi-column
@@ -82,6 +82,12 @@
       [customizeText]="customizePhoneCell"
       [hidingPriority]="2"
     ></dxi-column>
+    <dxi-column
+      dataField="companyName"
+      caption="Company Name"
+      [hidingPriority]="2"
+    ></dxi-column>
+
   </dx-data-grid>
 
   <company-panel
