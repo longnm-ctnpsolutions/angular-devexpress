@@ -7,14 +7,15 @@ import {
 } from 'devextreme-angular';
 import { forkJoin, map } from 'rxjs';
 import { DxToolbarModule } from 'devextreme-angular/ui/toolbar';
-import { ContactCardsComponent } from '../../components';
 import { DataService } from '../../services';
-import { Contact, Messages, Notes, Opportunities } from '../../types';
+import { Contact } from '../../types';
 import { BaseDataService } from '../../services/base-data.service';
 import { Company } from '../../types/company';
 import { CompanyFormComponent } from '../../components/library/company-form/company-form.component';
 import { Router } from '@angular/router';
 import notify from 'devextreme/ui/notify';
+import { Employee } from '../../types/employee';
+import { CompanyCardsComponent } from '../../components/utils/company-cards/company-cards.component';
 
 @Component({
   templateUrl: './company-details.component.html',
@@ -23,11 +24,11 @@ import notify from 'devextreme/ui/notify';
     DxDropDownButtonModule,
     DxScrollViewModule,
     DxToolbarModule,
-
     CompanyFormComponent,
-    ContactCardsComponent,
+
     CommonModule,
     CompanyFormComponent,
+    CompanyCardsComponent,
   ],
   standalone: true,
   styleUrls: ['./company-details.component.scss'],
@@ -38,19 +39,15 @@ export class CompanyDetailsComponent implements OnInit {
 
   contactData: Contact | undefined;
 
-  contactNotes: Notes = [];
-
-  contactMessages: Messages = [];
-
-  activeOpportunities: Opportunities = [];
-
-  closedOpportunities: Opportunities = [];
-
   contactName = 'Loading...';
 
   isLoading = false;
 
+  companyId!: number;
+
   companyDataLocal: Company | undefined;
+
+  empList: Employee[] | undefined;
 
   companyData: Company | undefined;
 
@@ -63,10 +60,24 @@ export class CompanyDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.loadData();
     if (this.companyDataLocal) {
-      const companyId = this.companyDataLocal.companyID;
-      this.loadUserById(companyId);
+      console.log('run 1');
+      this.companyId = this.companyDataLocal.companyID;
+      this.loadUserById(this.companyId);
+      this.getUserById(this.companyId);
+      console.log(this.companyId);
     }
   }
+
+  getUserById = (id: number) => {
+    console.log('run 2');
+    this.isLoading = true;
+    this.baseDataService.getCompanie(id).subscribe((data) => {
+      console.log(data);
+      this.empList = data?.employees || [];
+      console.log(this.empList);
+    });
+    this.isLoading = false;
+  };
 
   deleteCompany = () => {
     const companyId = this.companyDataLocal?.companyID;
@@ -144,34 +155,15 @@ export class CompanyDetailsComponent implements OnInit {
   };
 
   loadData = () => {
-    forkJoin([
-      this.service.getContactNotes(this.contactId),
-      this.service.getContactMessages(this.contactId),
-      this.service.getActiveContactOpportunities(this.contactId),
-      this.service.getClosedContactOpportunities(this.contactId),
-    ])
-      .pipe(
-        map(
-          ([
-            contactNotes,
-            contactMessages,
-            activeOpportunities,
-            closedOpportunities,
-          ]) => ({
-            contactNotes,
-            contactMessages,
-            activeOpportunities,
-            closedOpportunities,
-          })
-        )
-      )
-      .subscribe((data) => {
-        this.contactNotes = data.contactNotes;
-        this.contactMessages = data.contactMessages;
-        this.activeOpportunities = data.activeOpportunities;
-        this.closedOpportunities = data.closedOpportunities;
-        this.isLoading = false;
-      });
+    // forkJoin([this.baseDataService.getCompanie(this.companyId)])
+    //   .pipe(
+    //     map(([listEmpl]) => ({
+    //       listEmpl,
+    //     }))
+    //   )
+    //   .subscribe((data) => {
+    //     this.isLoading = false;
+    //   });
     this.baseDataService.getCompanyData().subscribe((data) => {
       this.companyDataLocal = data;
     });

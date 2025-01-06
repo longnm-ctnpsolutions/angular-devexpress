@@ -15,7 +15,6 @@ import { DxButtonTypes } from 'devextreme-angular/ui/button';
 import { FormTextboxComponent } from '../../utils/form-textbox/form-textbox.component';
 import { FormPhotoComponent } from '../../utils/form-photo/form-photo.component';
 import { ToolbarFormComponent } from '../../utils/toolbar-form/toolbar-form.component';
-import { StatusSelectBoxComponent } from '../status-select-box/status-select-box.component';
 import { Contact } from '../../../types';
 import { Company, CompanyBase } from '../../../types/company';
 import { get, omit } from 'lodash';
@@ -38,7 +37,6 @@ import notify from 'devextreme/ui/notify';
     DxValidatorModule,
     ToolbarFormComponent,
     CommonModule,
-    StatusSelectBoxComponent,
   ],
   standalone: true,
   templateUrl: './company-form.component.html',
@@ -69,17 +67,16 @@ export class CompanyFormComponent {
     if (!validationGroup.validate().isValid) return;
     const id: number = get(this.companyData, 'companyID');
     const newCompany: CompanyBase = omit(this.companyData, 'image', 'status');
-    newCompany.isActive = this.companyData.status.trim() === 'Active';
-    console.log(newCompany);
     this.service.updateCompanyPanel(newCompany, id).subscribe({
       next: (response) => {
         notify(
           {
-            message: `New company "${newCompany.companyName}" saved`,
+            message: `Company "${newCompany.companyName}" saved`,
             position: { at: 'top center', my: 'top   center' },
           },
           'success'
         );
+        this.service.notifyCompanyUpdated();
         return response;
       },
       error: (err) => {

@@ -5,28 +5,23 @@ import {
   DxTabPanelModule,
   DxDataGridModule,
 } from 'devextreme-angular';
-import { Task } from '../../../types';
-import { CardTasksComponent } from '../card-tasks/card-tasks.component';
 import { Employee } from '../../../types/employee';
+import { CardEmpsComponent } from '../card-emp/card-emp.component';
 
 @Component({
-  selector: 'contact-cards',
+  selector: 'company-cards',
   imports: [
     DxButtonModule,
     DxTabPanelModule,
     DxDataGridModule,
-
-    CardTasksComponent,
-
     CommonModule,
+    CardEmpsComponent,
   ],
   standalone: true,
-  templateUrl: './contact-cards.component.html',
-  styleUrls: ['./contact-cards.component.scss'],
+  templateUrl: './company-cards.component.html',
+  styleUrls: ['./company-cards.component.scss'],
 })
-export class ContactCardsComponent {
-  @Input() tasks: Task[] | undefined;
-
+export class CompanyCardsComponent {
   @Input() empList: Employee[] | undefined;
 
   @Input()

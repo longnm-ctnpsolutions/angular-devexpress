@@ -34,6 +34,7 @@ import { Company, CompanyBase } from '../../../types/company';
 import { ChangeDetectorRef } from '@angular/core';
 import { get, omit } from 'lodash';
 import notify from 'devextreme/ui/notify';
+import { DataSource } from 'devextreme/common/data';
 @Component({
   selector: 'company-panel',
   imports: [
@@ -67,7 +68,7 @@ export class CompanyPanelComponent
   @Output() isOpenedChange = new EventEmitter<boolean>();
 
   @Output() pinnedChange = new EventEmitter<boolean>();
-
+  @Output() companyUpdated = new EventEmitter<void>();
   private pinEventSubject = new Subject<boolean>();
 
   formData!: Company;
@@ -166,16 +167,16 @@ export class CompanyPanelComponent
     this.contactData = { ...this.formData };
     const id: number = get(this.contactData, 'companyID');
     const newCompany: CompanyBase = omit(this.contactData, 'image', 'status');
-    console.log(newCompany);
     this.service.updateCompanyPanel(newCompany, id).subscribe({
       next: (response) => {
         notify(
           {
-            message: `New company "${newCompany.companyName}" saved`,
+            message: `Company "${newCompany.companyName}" saved`,
             position: { at: 'top center', my: 'top   center' },
           },
           'success'
         );
+        this.companyUpdated.emit();
         return response;
       },
       error: (err) => {

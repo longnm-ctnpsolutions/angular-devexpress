@@ -8,6 +8,7 @@ import { Employee } from '../types/employee';
 const API_URL = 'http://localhost:5074/api';
 @Injectable()
 export class BaseDataService {
+  companyUpdated$: any;
   constructor(
     private http: HttpClient,
     private sharedDataService: SharedDataService
@@ -21,6 +22,10 @@ export class BaseDataService {
 
   getCompanyData() {
     return this.sharedDataService.getCompanyData();
+  }
+
+  notifyCompanyUpdated() {
+    return this.sharedDataService.notifyCompanyUpdated();
   }
 
   getCompanies(): Observable<Company[]> {

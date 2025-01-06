@@ -67,21 +67,21 @@
       dataField="companyName"
       caption="Company Name"
       sortOrder="asc"
-      [hidingPriority]="5"
+      [hidingPriority]="3"
       [minWidth]="150"
       cellTemplate="companyName"
     ></dxi-column>
     <dxi-column
       dataField="address"
       caption="Address"
-      [hidingPriority]="4"
+      [hidingPriority]="3"
       [minWidth]="150"
     ></dxi-column>
     <dxi-column
       dataField="phone"
       caption="Phone"
       [customizeText]="customizePhoneCell"
-      [hidingPriority]="5"
+      [hidingPriority]="2"
     ></dxi-column>
     <div *dxTemplate="let cellInfo of 'companyName'" class="name-template">
       <div>
@@ -119,6 +119,7 @@
     [(isOpened)]="isPanelOpened"
     (isOpenedChange)="onOpenedChange($event)"
     (pinnedChange)="onPinnedChange()"
+    (companyUpdated)="onCompanyUpdated()"
   >
   </company-panel>
 

@@ -59,6 +59,7 @@ export class CompanyListComponent {
   companyID: number | null = null;
 
   companyList!: Company[];
+  constructor(private service: BaseDataService) {}
 
   loadCompanies(): Promise<Company[]> {
     return new Promise((resolve, reject) => {
@@ -82,8 +83,16 @@ export class CompanyListComponent {
     },
   });
 
-  constructor(private service: BaseDataService) {}
+  ngOnInit(): void {
+    this.service.companyUpdated$.subscribe(() => {
+      console.log('Company list updated!');
+      (this.dataSource as DataSource).reload();
+    });
+  }
 
+  onCompanyUpdated(): void {
+    (this.dataSource as DataSource).reload();
+  }
   addContact() {
     this.isAddContactPopupOpened = true;
   }
@@ -142,11 +151,12 @@ export class CompanyListComponent {
       next: (response) => {
         notify(
           {
-            message: `New company "${body.companyName}" saved`,
+            message: `Company "${body.companyName}" saved`,
             position: { at: 'top center', my: 'top   center' },
           },
           'success'
         );
+        this.onCompanyUpdated();
         return response;
       },
       error: (err) => {

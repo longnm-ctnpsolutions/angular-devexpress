@@ -51,16 +51,10 @@
       </div>
 
       <div class="right theme-dependent">
-        <contact-cards
+        <company-cards
           [isLoading]="isLoading"
-          [contactName]="contactData?.name ?? 'Unknown'"
-          [tasks]="contactData?.tasks "
-          [activities]="contactData?.activities"
-          [activeOpportunities]="activeOpportunities"
-          [closedOpportunities]="closedOpportunities"
-          [notes]="contactNotes"
-          [messages]="contactMessages"
-        ></contact-cards>
+          [empList]="empList "
+        ></company-cards>
       </div>
     </div>
   </div>

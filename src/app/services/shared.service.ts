@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, tap } from 'rxjs';
 import { Company } from '../types/company';
 
@@ -9,6 +9,13 @@ export class SharedDataService {
   private companyDataSubject = new BehaviorSubject<Company | undefined>(
     this.loadDataFromLocalStorage()
   );
+
+  private companyUpdatedSource = new BehaviorSubject<void>(undefined);
+  companyUpdated$ = this.companyUpdatedSource.asObservable();
+
+  notifyCompanyUpdated(): void {
+    this.companyUpdatedSource.next();
+  }
 
   setCompanyData(data: Company | undefined) {
     this.companyDataSubject.next(data);

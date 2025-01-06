@@ -16,9 +16,7 @@ import { newCompany } from '../../../types/company';
     DxTextBoxModule,
     DxFormModule,
     DxValidatorModule,
-
     FormTextboxComponent,
-    FormPhotoUploaderComponent,
     CommonModule,
   ],
   standalone: true,

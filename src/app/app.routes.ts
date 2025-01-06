@@ -69,16 +69,16 @@ export const routes: Routes = [
         canActivate: [AuthGuardService],
         data: { roles: [] },
       },
-      {
-        path: 'crm-contact-list',
-        component: CrmContactListComponent,
-        canActivate: [AuthGuardService],
-      },
-      {
-        path: 'crm-contact-details',
-        component: CrmContactDetailsComponent,
-        canActivate: [AuthGuardService],
-      },
+      // {
+      //   path: 'crm-contact-list',
+      //   component: CrmContactListComponent,
+      //   canActivate: [AuthGuardService],
+      // },
+      // {
+      //   path: 'crm-contact-details',
+      //   component: CrmContactDetailsComponent,
+      //   canActivate: [AuthGuardService],
+      // },
       {
         path: 'sign-in-form',
         component: AppSignInComponent,
