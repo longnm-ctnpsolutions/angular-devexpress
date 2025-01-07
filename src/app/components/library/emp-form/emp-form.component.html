@@ -27,23 +27,24 @@
 
       <dxi-item itemType="group" [colCount]="2" caption="Contacts">
         <dxo-col-count-by-screen [xs]="2"></dxo-col-count-by-screen>
+        <dxi-item cssClass="accent">
+          <div *dxTemplate>
+            <form-textbox
+              label="Full Name"
+              [(value)]="empData.fullName"
+              [isEditing]="isEditing"
+              [fieldName]="'FullName'"
+            ></form-textbox>
+          </div>
+        </dxi-item>
         <dxi-item cssClass="accent" [colSpan]="4">
           <form-textbox
             *dxTemplate
             label="Company Name"
             [(value)]="empData.companyName"
-            [isEditing]="isEditing"
-            [fieldName]="'CompanyName'"
+            [isEditing]="!isEditing"
+            [fieldName]="'None'"
           ></form-textbox>
-        </dxi-item>
-        <dxi-item [colSpan]="4">
-          <div *dxTemplate>
-            <form-textbox
-              [isEditing]="!isEditing"
-              [label]="'StaffCode'"
-              [(value)]="empData.staffCode"
-            ></form-textbox>
-          </div>
         </dxi-item>
       </dxi-item>
 
@@ -67,6 +68,16 @@
               [icon]="'tel'"
               [type]="'default'"
             ></dx-button>
+          </div>
+        </dxi-item>
+        <dxi-item [colSpan]="4">
+          <div *dxTemplate>
+            <form-textbox
+              [isEditing]="!isEditing"
+              [label]="'StaffCode'"
+              [(value)]="empData.staffCode"
+              [fieldName]="'None'"
+            ></form-textbox>
           </div>
         </dxi-item>
       </dxi-item>

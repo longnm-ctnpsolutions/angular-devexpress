@@ -166,6 +166,11 @@ export class CompanyPanelComponent
     if (!validationGroup.validate().isValid) return;
     this.contactData = { ...this.formData };
     const id: number = get(this.contactData, 'companyID');
+    if (this.contactData.phone) {
+      this.contactData.phone = this.contactData.phone
+        .replace(/\(\+84\)/, '0')
+        .replace(/\D/g, '');
+    }
     const newCompany: CompanyBase = omit(this.contactData, 'image', 'status');
     this.service.updateCompanyPanel(newCompany, id).subscribe({
       next: (response) => {
@@ -182,7 +187,9 @@ export class CompanyPanelComponent
       error: (err) => {
         notify(
           {
-            message: `Some things went wrong`,
+            message: `${
+              err.error ? err.error : 'Some thing went wrong. Please try again'
+            }`,
             position: { at: 'top center', my: 'top   center' },
           },
           'error'

@@ -14,6 +14,9 @@ import { Router } from '@angular/router';
 import notify from 'devextreme/ui/notify';
 import { Employee } from '../../types/employee';
 import { EmpFormComponent } from '../../components/library/emp-form/emp-form.component';
+import { FormPopupComponent } from '../../components/utils/form-popup/form-popup.component';
+import { CompanyNewFormComponent } from '../../components/library/company-new-form/company-new-form.component';
+import { DeleteFormComponent } from '../../components/library/delete-form/delete-form.component';
 
 @Component({
   templateUrl: './emp-details.component.html',
@@ -24,6 +27,8 @@ import { EmpFormComponent } from '../../components/library/emp-form/emp-form.com
     DxToolbarModule,
     CommonModule,
     EmpFormComponent,
+    FormPopupComponent,
+    DeleteFormComponent,
   ],
   standalone: true,
   styleUrls: ['./emp-details.component.scss'],
@@ -46,6 +51,7 @@ export class EmpDetailsComponent implements OnInit {
 
   empData: Employee | undefined;
 
+  isAddContactPopupOpened = false;
   constructor(
     private service: DataService,
     private baseDataService: BaseDataService,
@@ -58,28 +64,17 @@ export class EmpDetailsComponent implements OnInit {
       console.log('run 1');
       this.companyId = this.empDataLocal.staffCode;
       this.loadUserById(this.companyId);
-      // this.getUserById(this.companyId);
-      // console.log(this.companyId);
     }
   }
 
-  // getUserById = (id: string) => {
-  //   console.log('run 2');
-  //   this.isLoading = true;
-  //   this.baseDataService.getEmployeById(id).subscribe((data) => {
-  //     console.log(data);
-  //     this.empList = data?.employees || [];
-  //     console.log(this.empList);
-  //   });
-  //   this.isLoading = false;
-  // };
-
   deleteCompany = () => {
-    const companyId = this.empDataLocal?.companyID;
+    const companyId: number = parseInt(this.empDataLocal?.staffCode || '0', 10);
+    const name = this.empDataLocal?.fullName;
+    console.log(companyId, name);
     if (companyId) {
       notify(
         {
-          message: `Deleting company with ID ${companyId}...`,
+          message: `Deleting user: ${name}...`,
           position: { at: 'top center', my: 'top center' },
         },
         'warning'
@@ -97,7 +92,7 @@ export class EmpDetailsComponent implements OnInit {
         countdown--;
         if (countdown < 0) {
           clearInterval(countdownInterval);
-          this.baseDataService.deleteCompany(companyId).subscribe({
+          this.baseDataService.deleteEmp(companyId).subscribe({
             next: (response) => {
               notify(
                 {
@@ -177,4 +172,8 @@ export class EmpDetailsComponent implements OnInit {
   navigateToDetails = () => {
     this.router.navigate(['/emp-list']);
   };
+
+  addContact() {
+    this.isAddContactPopupOpened = true;
+  }
 }

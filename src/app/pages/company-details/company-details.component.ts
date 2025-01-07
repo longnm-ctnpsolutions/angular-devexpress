@@ -16,6 +16,8 @@ import { Router } from '@angular/router';
 import notify from 'devextreme/ui/notify';
 import { Employee } from '../../types/employee';
 import { CompanyCardsComponent } from '../../components/utils/company-cards/company-cards.component';
+import { FormPopupComponent } from '../../components/utils/form-popup/form-popup.component';
+import { DeleteFormComponent } from '../../components/library/delete-form/delete-form.component';
 
 @Component({
   templateUrl: './company-details.component.html',
@@ -25,10 +27,11 @@ import { CompanyCardsComponent } from '../../components/utils/company-cards/comp
     DxScrollViewModule,
     DxToolbarModule,
     CompanyFormComponent,
-
     CommonModule,
     CompanyFormComponent,
     CompanyCardsComponent,
+    FormPopupComponent,
+    DeleteFormComponent,
   ],
   standalone: true,
   styleUrls: ['./company-details.component.scss'],
@@ -51,6 +54,7 @@ export class CompanyDetailsComponent implements OnInit {
 
   companyData: Company | undefined;
 
+  isAddContactPopupOpened = false;
   constructor(
     private service: DataService,
     private baseDataService: BaseDataService,
@@ -81,10 +85,11 @@ export class CompanyDetailsComponent implements OnInit {
 
   deleteCompany = () => {
     const companyId = this.companyDataLocal?.companyID;
+    const name = this.companyDataLocal?.companyName;
     if (companyId) {
       notify(
         {
-          message: `Deleting company with ID ${companyId}...`,
+          message: `Deleting company: ${name}...`,
           position: { at: 'top center', my: 'top center' },
         },
         'warning'
@@ -182,4 +187,7 @@ export class CompanyDetailsComponent implements OnInit {
   navigateToDetails = () => {
     this.router.navigate(['/company-list']);
   };
+  addContact() {
+    this.isAddContactPopupOpened = true;
+  }
 }

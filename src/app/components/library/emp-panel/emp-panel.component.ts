@@ -35,7 +35,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { get, omit } from 'lodash';
 import notify from 'devextreme/ui/notify';
 import { DataSource } from 'devextreme/common/data';
-import { Employee } from '../../../types/employee';
+import { Employee, EmployeeBase } from '../../../types/employee';
 @Component({
   selector: 'emp-panel',
   imports: [
@@ -74,7 +74,7 @@ export class EmpPanelComponent
 
   formData!: Employee;
   contactData!: Employee;
-  companyData!: Employee;
+  empData!: Employee;
   newEdit!: Employee;
 
   image!: string;
@@ -161,32 +161,45 @@ export class EmpPanelComponent
 
   onSaveClick = ({ validationGroup }: DxButtonTypes.ClickEvent) => {
     if (!validationGroup.validate().isValid) return;
-    // this.contactData = { ...this.formData };
-    // const id: number = get(this.contactData, 'companyID');
-    // const newCompany: CompanyBase = omit(this.contactData, 'image', 'status');
-    // this.service.updateCompanyPanel(newCompany, id).subscribe({
-    //   next: (response) => {
-    //     notify(
-    //       {
-    //         message: `Company "${newCompany.companyName}" saved`,
-    //         position: { at: 'top center', my: 'top   center' },
-    //       },
-    //       'success'
-    //     );
-    //     this.companyUpdated.emit();
-    //     return response;
-    //   },
-    //   error: (err) => {
-    //     notify(
-    //       {
-    //         message: `Some things went wrong`,
-    //         position: { at: 'top center', my: 'top   center' },
-    //       },
-    //       'error'
-    //     );
-    //   },
-    // });
-    // this.isEditing = !this.isEditing;
+    this.empData = { ...this.formData };
+    if (this.empData.phone) {
+      this.empData.phone = this.empData.phone
+        .replace(/\(\+84\)/, '0')
+        .replace(/\D/g, '');
+    }
+    const id: number = parseInt(this.empData.staffCode, 10);
+    const newEmp = omit(
+      this.empData,
+      'image',
+      'companyName',
+      'companyID',
+      'staffCode'
+    );
+    this.service.updateEmpPanel(newEmp, id).subscribe({
+      next: (response) => {
+        notify(
+          {
+            message: `User "${newEmp.fullName}" saved`,
+            position: { at: 'top center', my: 'top   center' },
+          },
+          'success'
+        );
+        this.companyUpdated.emit();
+        return response;
+      },
+      error: (err) => {
+        notify(
+          {
+            message: `${
+              err.error ? err.error : 'Some thing went wrong. Please try again'
+            }`,
+            position: { at: 'top center', my: 'top   center' },
+          },
+          'error'
+        );
+      },
+    });
+    this.isEditing = !this.isEditing;
   };
 
   calculatePin = () => {

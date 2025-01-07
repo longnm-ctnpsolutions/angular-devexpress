@@ -2,15 +2,20 @@
   <div class="view-wrapper">
     <dx-toolbar class="toolbar-details theme-dependent">
       <dxi-item location="before">
-        <dx-button icon="arrowleft" stylingMode="text" (onClick)="navigateToDetails()"></dx-button>
+        <dx-button
+          icon="arrowleft"
+          stylingMode="text"
+          (onClick)="navigateToDetails()"
+        ></dx-button>
       </dxi-item>
       <dxi-item location="before" [text]="companyData?.companyName"></dxi-item>
       <dxi-item location="after" locateInMenu="auto">
         <dx-button
           text="Terminate"
+          icon="clearcircle"
           type="default"
           stylingMode="contained"
-          (click)="deleteCompany()"
+          (onClick)="addContact()"
         ></dx-button>
       </dxi-item>
       <dxi-item location="after" locateInMenu="auto">
@@ -44,20 +49,27 @@
     <div class="panels theme-dependent">
       <div class="left">
         <company-form
-           *ngIf="companyData"
-            [companyData]="companyData"
-            [isLoading]="isLoading"
+          *ngIf="companyData"
+          [companyData]="companyData"
+          [isLoading]="isLoading"
         ></company-form>
       </div>
 
       <div class="right theme-dependent">
         <company-cards
-         *ngIf="companyData"
+          *ngIf="companyData"
           [companyID]="companyData.companyID"
           [isLoading]="isLoading"
-          [empList]="empList "
+          [empList]="empList"
         ></company-cards>
       </div>
     </div>
+    <form-popup
+      [(visible)]="isAddContactPopupOpened"
+      (save)="deleteCompany()"
+      titleText="Do you really want to delete this item"
+    >
+      <delete-form></delete-form>
+    </form-popup>
   </div>
 </dx-scroll-view>

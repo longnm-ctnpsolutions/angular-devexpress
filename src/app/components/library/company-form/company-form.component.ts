@@ -66,6 +66,11 @@ export class CompanyFormComponent {
   handleSaveClick({ validationGroup }: DxButtonTypes.ClickEvent) {
     if (!validationGroup.validate().isValid) return;
     const id: number = get(this.companyData, 'companyID');
+    if (this.companyData.phone) {
+      this.companyData.phone = this.companyData.phone
+        .replace(/\(\+84\)/, '0')
+        .replace(/\D/g, '');
+    }
     const newCompany: CompanyBase = omit(this.companyData, 'image', 'status');
     this.service.updateCompanyPanel(newCompany, id).subscribe({
       next: (response) => {
@@ -82,7 +87,9 @@ export class CompanyFormComponent {
       error: (err) => {
         notify(
           {
-            message: `Some things went wrong`,
+            message: `${
+              err.error ? err.error : 'Some thing went wrong. Please try again'
+            }`,
             position: { at: 'top center', my: 'top   center' },
           },
           'error'

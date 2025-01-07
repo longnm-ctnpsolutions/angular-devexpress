@@ -157,6 +157,7 @@ export class CompanyListComponent {
           'success'
         );
         this.onCompanyUpdated();
+        this.isAddContactPopupOpened = false;
         return response;
       },
       error: (err) => {

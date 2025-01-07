@@ -66,30 +66,43 @@ export class EmpFormComponent {
 
   handleSaveClick({ validationGroup }: DxButtonTypes.ClickEvent) {
     if (!validationGroup.validate().isValid) return;
-    // const id: number = get(this.empData, 'companyID');
-    // const newCompany: CompanyBase = omit(this.empData, 'image', 'status');
-    // this.service.updateCompanyPanel(newCompany, id).subscribe({
-    //   next: (response) => {
-    //     notify(
-    //       {
-    //         message: `Company "${newCompany.companyName}" saved`,
-    //         position: { at: 'top center', my: 'top   center' },
-    //       },
-    //       'success'
-    //     );
-    //     this.service.notifyCompanyUpdated();
-    //     return response;
-    //   },
-    //   error: (err) => {
-    //     notify(
-    //       {
-    //         message: `Some things went wrong`,
-    //         position: { at: 'top center', my: 'top   center' },
-    //       },
-    //       'error'
-    //     );
-    //   },
-    // });
+    const id: number = parseInt(this.empData.staffCode, 10);
+    if (this.empData.phone) {
+      this.empData.phone = this.empData.phone
+        .replace(/\(\+84\)/, '0')
+        .replace(/\D/g, '');
+    }
+    const newEmp = omit(
+      this.empData,
+      'image',
+      'companyName',
+      'companyID',
+      'staffCode'
+    );
+    this.service.updateEmpPanel(newEmp, id).subscribe({
+      next: (response) => {
+        notify(
+          {
+            message: `Company "${newEmp.fullName}" saved`,
+            position: { at: 'top center', my: 'top   center' },
+          },
+          'success'
+        );
+        this.service.notifyCompanyUpdated();
+        return response;
+      },
+      error: (err) => {
+        notify(
+          {
+            message: `${
+              err.error ? err.error : 'Some thing went wrong. Please try again'
+            }`,
+            position: { at: 'top center', my: 'top   center' },
+          },
+          'error'
+        );
+      },
+    });
     this.isEditing = !this.isEditing;
   }
 

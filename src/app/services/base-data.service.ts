@@ -73,6 +73,12 @@ export class BaseDataService {
   public createEmp = (empData: EmployeeBase) =>
     this.http.post<Employee>(`${API_URL}/user/${empData.companyID}`, empData);
 
+  public updateEmpPanel = (empData: any, id: number) =>
+    this.http.put<Employee>(`${API_URL}/user/${id}`, empData);
+
+  public deleteEmp = (id: number) =>
+    this.http.delete<Employee>(`${API_URL}/user/${id}`);
+
   generateRandomImage() {
     return this.sharedDataService.generateRandomImage();
   }
