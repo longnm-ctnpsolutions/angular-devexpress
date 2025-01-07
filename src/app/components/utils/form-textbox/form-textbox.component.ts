@@ -44,6 +44,7 @@ export class FormTextboxComponent {
     | 'Phone'
     | 'Email'
     | 'FullName'
+    | 'None'
     | 'Industry' = 'CompanyName';
 
   @Input() value!: string;
@@ -81,8 +82,8 @@ export class FormTextboxComponent {
           { type: 'required', message: 'Phone number is required' },
           {
             type: 'pattern',
-            pattern: /^\d{10,15}$/,
-            message: 'Phone number must be between 10 and 15 digits',
+            pattern: /^\d{8,11}$/,
+            message: 'Phone number must be between 10 and 11 digits',
           },
         ];
       case 'Email':
@@ -114,6 +115,8 @@ export class FormTextboxComponent {
             message: 'Full name must be between 2 and 50 characters',
           },
         ];
+      case 'None':
+        return [];
       default:
         return [];
     }

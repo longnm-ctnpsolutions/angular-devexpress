@@ -24,6 +24,8 @@ import { CardEmpsComponent } from '../card-emp/card-emp.component';
 export class CompanyCardsComponent {
   @Input() empList: Employee[] | undefined;
 
+  @Input() companyID: number | undefined;
+
   @Input()
   contactName!: string;
 

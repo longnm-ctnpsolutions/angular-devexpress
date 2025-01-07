@@ -9,6 +9,10 @@ export type CompanyBase = {
   industry: string;
   isActive: boolean;
 };
+export interface CompanySummary {
+  companyID: number;
+  companyName: string;
+}
 
 export const newCompany: CompanyBase = {
   companyName: '',

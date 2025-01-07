@@ -1,4 +1,5 @@
 <dx-form
+*ngIf="newData"
   class="plain-styled-form"
   [screenByWidth]="getSizeQualifier"
   id="form"
@@ -11,16 +12,19 @@
       [md]="2"
       [lg]="2"
     ></dxo-col-count-by-screen>
-    <dxi-item [colSpan]="2">
-      <div *dxTemplate>
-        <form-textbox
-          label="Company Name"
-          [(value)]="newData.companyName"
-          [isEditing]="true"
-          [fieldName]="'CompanyName'"
-        >
-        </form-textbox>
-      </div>
+    <div>Company Name</div>
+    <dxi-item [colSpan]="2" >
+      <dx-drop-down-button
+        stylingMode="text"
+        [useSelectMode]="true"
+        [items]="filterStatusList"
+        displayExpr="companyName"
+        valueExpr="companyID"
+        [dropDownOptions]="{ width: 'auto' }"
+         [selectedItemKey]="filterStatusList[0].companyName"
+        (onSelectionChanged)="onValueChanged($event)"
+      >
+      </dx-drop-down-button>
     </dxi-item>
   </dxi-item>
 

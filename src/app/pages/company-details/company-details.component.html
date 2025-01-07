@@ -52,6 +52,8 @@
 
       <div class="right theme-dependent">
         <company-cards
+         *ngIf="companyData"
+          [companyID]="companyData.companyID"
           [isLoading]="isLoading"
           [empList]="empList "
         ></company-cards>

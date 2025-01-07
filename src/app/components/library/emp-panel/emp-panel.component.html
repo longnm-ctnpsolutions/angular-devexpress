@@ -47,6 +47,7 @@
                         label="Full Name"
                         [(value)]="formData.fullName"
                         [isEditing]="isEditing"
+[fieldName]="'FullName'"
                       ></form-textbox>
                     </div>
                   </dxi-item>
@@ -74,7 +75,9 @@
                       label="Company Name"
                       [(value)]="formData.companyName"
                       [isEditing]="isEditing"
-                    ></form-textbox>
+                      [fieldName]="'CompanyName'"
+                    >
+                  </form-textbox>
                   </div>
                 </dxi-item>
 
@@ -83,6 +86,8 @@
                     <form-textbox
                       label="Staff Code"
                       [(value)]="formData.staffCode"
+                      [isEditing]="!isEditing"
+                      [fieldName]="'None'"
                     >
                     </form-textbox>
                   </div>

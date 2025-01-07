@@ -2,8 +2,12 @@
   <dx-data-grid
     *ngIf="currentTasks"
     #dataGrid
-    [dataSource]="currentTasks"
+    [dataSource]="dataSource"
     [columnAutoWidth]="true"
+    (onRowClick)="rowClick($event)"
+    [(focusedRowKey)]="staffCode"
+    [allowColumnReordering]="true"
+    [focusedRowEnabled]="true"
   >
     <dxo-selection mode="multiple" showCheckBoxesMode="always"></dxo-selection>
 
@@ -36,4 +40,13 @@
     container="#card-tasks"
     [position]="{ of: '#card-tasks' }"
   ></dx-load-panel>
+
+
+      <emp-panel
+    [userId]="staffCode"
+    [(isOpened)]="isPanelOpened"
+    (isOpenedChange)="onOpenedChange($event)"
+    (pinnedChange)="onPinnedChange()"
+  >
+  </emp-panel>
 </div>

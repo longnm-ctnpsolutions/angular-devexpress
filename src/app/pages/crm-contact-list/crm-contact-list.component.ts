@@ -61,6 +61,15 @@ export class CrmContactListComponent {
 
   filterStatusList = ['All', ...contactStatusList];
 
+  filterByStatus = (e: DxDropDownButtonTypes.SelectionChangedEvent) => {
+    const { item: status }: { item: FilterContactStatus } = e;
+
+    if (status === 'All') {
+      this.dataGrid.instance.clearFilter();
+    } else {
+      this.dataGrid.instance.filter(['status', '=', status]);
+    }
+  };
   isPanelOpened = false;
 
   isAddContactPopupOpened = false;
@@ -105,16 +114,6 @@ export class CrmContactListComponent {
 
   onPinnedChange = () => {
     this.dataGrid.instance.updateDimensions();
-  };
-
-  filterByStatus = (e: DxDropDownButtonTypes.SelectionChangedEvent) => {
-    const { item: status }: { item: FilterContactStatus } = e;
-
-    if (status === 'All') {
-      this.dataGrid.instance.clearFilter();
-    } else {
-      this.dataGrid.instance.filter(['status', '=', status]);
-    }
   };
 
   customizePhoneCell = ({ value }: { value: string | number }) =>

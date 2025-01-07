@@ -14,10 +14,18 @@ import {
 } from 'devextreme-angular';
 import { DxDataGridTypes } from 'devextreme-angular/ui/data-grid';
 import { Employee } from '../../../types/employee';
+import { EmpPanelComponent } from '../../library/emp-panel/emp-panel.component';
+import { BaseDataService } from '../../../services/base-data.service';
+import { DataSource } from 'devextreme/common/data';
 
 @Component({
   selector: 'card-emp',
-  imports: [DxDataGridModule, DxLoadPanelModule, CommonModule],
+  imports: [
+    DxDataGridModule,
+    DxLoadPanelModule,
+    CommonModule,
+    EmpPanelComponent,
+  ],
   standalone: true,
   templateUrl: './card-emp.component.html',
   styleUrls: ['./card-emp.component.scss'],
@@ -25,12 +33,15 @@ import { Employee } from '../../../types/employee';
 export class CardEmpsComponent implements OnChanges {
   @ViewChild('dataGrid', { static: false }) component!: DxDataGridComponent;
   @Input() empList: Employee[] | undefined;
+  @Input() companyID: number | undefined;
 
   @Input() isLoading: boolean = false;
 
   currentTasks!: Employee[];
+  isPanelOpened = false;
+  staffCode: number | null = null;
 
-  constructor() {
+  constructor(private service: BaseDataService) {
     this.onReorder = this.onReorder.bind(this);
   }
 
@@ -40,6 +51,12 @@ export class CardEmpsComponent implements OnChanges {
       console.log(this.currentTasks);
     }
   }
+  dataSource = new DataSource<Employee[], string>({
+    key: 'staffCode',
+    load: async () => {
+      return this.currentTasks;
+    },
+  });
 
   onReorder(e: DxDataGridTypes.RowDraggingReorderEvent) {
     const visibleRows = e.component.getVisibleRows();
@@ -49,4 +66,20 @@ export class CardEmpsComponent implements OnChanges {
     this.currentTasks.splice(fromIndex, 1);
     this.currentTasks.splice(toIndex, 0, e.itemData);
   }
+
+  rowClick(e: DxDataGridTypes.RowClickEvent) {
+    const { data } = e;
+    this.staffCode = data.staffCode;
+    this.isPanelOpened = true;
+  }
+
+  onOpenedChange = (value: boolean) => {
+    if (!value) {
+      this.staffCode = null;
+    }
+  };
+
+  onPinnedChange = () => {
+    this.component.instance.updateDimensions();
+  };
 }
