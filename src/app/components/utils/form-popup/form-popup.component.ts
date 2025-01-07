@@ -2,7 +2,9 @@ import {
   Component,
   NgModule,
   Input,
-  ViewChild, Output, EventEmitter,
+  ViewChild,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -15,10 +17,9 @@ import {
 import { ApplyPipe } from '../../../pipes/apply.pipe';
 import { ScreenService } from '../../../services';
 
-
 @Component({
   selector: 'form-popup',
-    imports: [
+  imports: [
     ApplyPipe,
     DxButtonModule,
     DxToolbarModule,
@@ -28,9 +29,8 @@ import { ScreenService } from '../../../services';
   ],
   standalone: true,
   templateUrl: './form-popup.component.html',
-  styleUrls: ['./form-popup.component.scss']
+  styleUrls: ['./form-popup.component.scss'],
 })
-
 export class FormPopupComponent {
   @ViewChild('validationGroup', { static: true })
   validationGroup!: DxValidationGroupComponent;
@@ -51,19 +51,19 @@ export class FormPopupComponent {
 
   @Output() visibleChange = new EventEmitter<boolean>();
 
-  constructor(protected screen: ScreenService) { }
+  constructor(protected screen: ScreenService) {}
 
   isValid() {
     return this.validationGroup.instance.validate().isValid;
   }
 
   onSaveClick() {
-    if(!this.isValid()) {
-      return
+    if (!this.isValid()) {
+      return;
     }
 
     this.save.emit();
-    this.close();
+    // this.close();
   }
 
   close() {
@@ -73,11 +73,10 @@ export class FormPopupComponent {
     this.visibleChange.emit(this.visible);
   }
 
-  getWrapperAttrs = (inputWrapperAttr: { class: any; }) => {
+  getWrapperAttrs = (inputWrapperAttr: { class: any }) => {
     return {
       ...inputWrapperAttr,
       class: `${inputWrapperAttr.class} form-popup`,
     };
-  }
+  };
 }
-

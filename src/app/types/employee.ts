@@ -11,7 +11,17 @@ export type Employee = {
   fullName: string;
   departmenID: number;
   companyName: string;
-  companyID: number;
+  companyID: number | null;
   role: Role;
   image: string;
+};
+export type EmployeeBase = {
+  companyID: string | number;
+  fullName: string;
+  phone: string;
+};
+export const newEmployee: EmployeeBase = {
+  companyID: '',
+  fullName: '',
+  phone: '',
 };

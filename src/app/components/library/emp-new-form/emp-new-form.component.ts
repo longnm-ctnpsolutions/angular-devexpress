@@ -11,6 +11,8 @@ import { getSizeQualifier } from '../../../services';
 import { CompanySummary, newCompany } from '../../../types/company';
 import { BaseDataService } from '../../../services/base-data.service';
 import { ChangeDetectorRef } from '@angular/core';
+import { newEmployee } from '../../../types/employee';
+import notify from 'devextreme/ui/notify';
 @Component({
   selector: 'emp-new-form',
   imports: [
@@ -27,7 +29,7 @@ import { ChangeDetectorRef } from '@angular/core';
   providers: [],
 })
 export class EmpNewFormComponent {
-  newData = newCompany;
+  newData = newEmployee;
   companies: CompanySummary[] = [];
 
   filterStatusList: any[] = [{ companyID: -1, companyName: 'Choose Company' }];
@@ -48,43 +50,43 @@ export class EmpNewFormComponent {
     return new Promise((resolve, reject) => {
       this.service.getCompanies().subscribe({
         next: (companies) => {
-          console.log('Dữ liệu công ty:', companies);
           this.companies = companies;
           const transformedData = companies.map((company) => ({
             companyID: company.companyID,
             companyName: company.companyName,
           }));
-          console.log('Dữ liệu sau khi chuyển đổi:', transformedData);
           this.filterStatusList = [
             { companyID: -1, companyName: 'Choose Company' },
             ...transformedData,
           ];
-          console.log('filterStatusList:', this.filterStatusList);
           resolve(transformedData);
         },
         error: (error) => {
-          console.error('Lỗi khi tải công ty:', error);
           reject(error);
         },
       });
     });
   }
-
   onValueChanged(event: any) {
     console.log('Event:', event);
     const selectedCompany = event.item;
 
     if (selectedCompany) {
       this.selectedCompanyID = selectedCompany.companyID;
-      console.log('ID công ty đã chọn:', this.selectedCompanyID);
-      console.log('Công ty đã chọn:', selectedCompany.companyName);
+      this.newData.companyID = this.selectedCompanyID ?? 0;
     } else {
-      // Nếu không chọn, gán về null
       this.selectedCompanyID = null;
-      console.log('Chưa chọn công ty');
+      this.newData.companyID = 0;
+      notify(
+        {
+          message: `You must select a company before proceeding.`,
+          position: { at: 'top center', my: 'top center' },
+        },
+        'error',
+        3000
+      );
     }
 
-    // Yêu cầu Angular kiểm tra lại sự thay đổi sau khi cập nhật
     this.cdRef.detectChanges();
   }
 }

@@ -10,19 +10,16 @@ import {
 import { DxDataGridTypes } from 'devextreme-angular/ui/data-grid';
 import { exportDataGrid as exportDataGridToPdf } from 'devextreme/pdf_exporter';
 import { exportDataGrid as exportDataGridToXLSX } from 'devextreme/excel_exporter';
-import { DxDropDownButtonTypes } from 'devextreme-angular/ui/drop-down-button';
 import DataSource from 'devextreme/data/data_source';
 import { CommonModule } from '@angular/common';
 import { Workbook } from 'exceljs';
 import { saveAs } from 'file-saver-es';
 import { jsPDF } from 'jspdf';
 import notify from 'devextreme/ui/notify';
-import { CompanyStatusComponent, FormPopupComponent } from '../../components';
-import { Employee, userStatusList } from '../../types/employee';
+import { FormPopupComponent } from '../../components';
+import { Employee } from '../../types/employee';
 import { BaseDataService } from '../../services/base-data.service';
-import { Company, CompanyStatus, companyStatusList } from '../../types/company';
-import { CompanyPanelComponent } from '../../components/library/company-panel/company-panel.component';
-import { CompanyNewFormComponent } from '../../components/library/company-new-form/company-new-form.component';
+import { Company, companyStatusList } from '../../types/company';
 import { EmpPanelComponent } from '../../components/library/emp-panel/emp-panel.component';
 import { EmpNewFormComponent } from '../../components/library/emp-new-form/emp-new-form.component';
 
@@ -48,8 +45,8 @@ export class EmpListComponent {
   @ViewChild(DxDataGridComponent, { static: true })
   dataGrid!: DxDataGridComponent;
 
-  @ViewChild(CompanyNewFormComponent, { static: false })
-  companyNewForm!: CompanyNewFormComponent;
+  @ViewChild(EmpNewFormComponent, { static: false })
+  empNewForm!: EmpNewFormComponent;
   statusList = companyStatusList;
 
   isPanelOpened = false;
@@ -156,27 +153,43 @@ export class EmpListComponent {
   }
 
   onClickSaveNewContact = () => {
-    const body = this.companyNewForm.getNewCompanyData();
-    this.service.createCompany(body).subscribe({
+    const body = this.empNewForm.getNewEmpData();
+    if (body.companyID == -1) {
+      notify(
+        {
+          message: `You must select a company before saving.`,
+          position: { at: 'top center', my: 'top center' },
+        },
+        'error',
+        3000
+      );
+      return;
+    }
+    console.log(body);
+    this.service.createEmp(body).subscribe({
       next: (response) => {
         notify(
           {
-            message: `Company "${body.companyName}" saved`,
+            message: `Company "${body.fullName}" saved`,
             position: { at: 'top center', my: 'top   center' },
           },
           'success'
         );
         this.onCompanyUpdated();
+        this.isAddContactPopupOpened = false;
         return response;
       },
       error: (err) => {
         notify(
           {
-            message: `Some things went wrong`,
+            message: `${
+              err.error ? err.error : 'Some thing went wrong. Please try again'
+            }`,
             position: { at: 'top center', my: 'top   center' },
           },
           'error'
         );
+        console.log(err);
       },
     });
   };

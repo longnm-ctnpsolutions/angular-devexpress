@@ -3,7 +3,7 @@ import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
 import { Company, CompanyBase } from '../types/company';
 import { Injectable } from '@angular/core';
 import { SharedDataService } from './shared.service';
-import { Employee } from '../types/employee';
+import { Employee, EmployeeBase } from '../types/employee';
 
 const API_URL = 'http://localhost:5074/api';
 @Injectable()
@@ -69,6 +69,9 @@ export class BaseDataService {
 
   public updateCompanyPanel = (companyData: CompanyBase, id: number) =>
     this.http.put<Company>(`${API_URL}/company/${id}`, companyData);
+
+  public createEmp = (empData: EmployeeBase) =>
+    this.http.post<Employee>(`${API_URL}/user/${empData.companyID}`, empData);
 
   generateRandomImage() {
     return this.sharedDataService.generateRandomImage();
