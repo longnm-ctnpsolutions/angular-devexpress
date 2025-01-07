@@ -24,7 +24,7 @@ import { BaseDataService } from '../../services/base-data.service';
 import { Company, CompanyStatus, companyStatusList } from '../../types/company';
 import { CompanyPanelComponent } from '../../components/library/company-panel/company-panel.component';
 import { CompanyNewFormComponent } from '../../components/library/company-new-form/company-new-form.component';
-
+import { Router } from '@angular/router';
 @Component({
   templateUrl: './company-list.component.html',
   standalone: true,
@@ -59,7 +59,7 @@ export class CompanyListComponent {
   companyID: number | null = null;
 
   companyList!: Company[];
-  constructor(private service: BaseDataService) {}
+  constructor(private service: BaseDataService, private router: Router) {}
 
   loadCompanies(): Promise<Company[]> {
     return new Promise((resolve, reject) => {

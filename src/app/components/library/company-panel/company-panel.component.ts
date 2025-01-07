@@ -217,6 +217,7 @@ export class CompanyPanelComponent
   }
 
   navigateToDetails = () => {
-    this.router.navigate(['/company-details']);
+    const id = get(this.contactData, 'companyID');
+    this.router.navigate([`/company-details/${id}`]);
   };
 }

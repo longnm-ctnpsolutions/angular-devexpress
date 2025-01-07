@@ -10,7 +10,7 @@ import { DataService } from '../../services';
 import { Contact } from '../../types';
 import { BaseDataService } from '../../services/base-data.service';
 
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import notify from 'devextreme/ui/notify';
 import { Employee } from '../../types/employee';
 import { EmpFormComponent } from '../../components/library/emp-form/emp-form.component';
@@ -51,19 +51,24 @@ export class EmpDetailsComponent implements OnInit {
 
   empData: Employee | undefined;
 
+  id!: number;
+  paramId!: string;
   isAddContactPopupOpened = false;
   constructor(
     private service: DataService,
     private baseDataService: BaseDataService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.loadData();
     if (this.empDataLocal) {
-      console.log('run 1');
       this.companyId = this.empDataLocal.staffCode;
-      this.loadUserById(this.companyId);
+      this.route.paramMap.subscribe((params) => {
+        this.paramId = params.get('id')!;
+      });
+      this.loadUserById(this.paramId);
     }
   }
 

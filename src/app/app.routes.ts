@@ -66,7 +66,7 @@ export const routes: Routes = [
         data: { roles: [] },
       },
       {
-        path: 'company-details',
+        path: 'company-details/:id',
         component: CompanyDetailsComponent,
         canActivate: [AuthGuardService],
         data: { roles: [] },
@@ -79,7 +79,7 @@ export const routes: Routes = [
         data: { roles: [] },
       },
       {
-        path: 'emp-details',
+        path: 'emp-details/:id',
         component: EmpDetailsComponent,
         canActivate: [AuthGuardService],
         data: { roles: [] },

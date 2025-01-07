@@ -12,7 +12,7 @@ import { Contact } from '../../types';
 import { BaseDataService } from '../../services/base-data.service';
 import { Company } from '../../types/company';
 import { CompanyFormComponent } from '../../components/library/company-form/company-form.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import notify from 'devextreme/ui/notify';
 import { Employee } from '../../types/employee';
 import { CompanyCardsComponent } from '../../components/utils/company-cards/company-cards.component';
@@ -53,12 +53,13 @@ export class CompanyDetailsComponent implements OnInit {
   empList: Employee[] | undefined;
 
   companyData: Company | undefined;
-
+  id!: number;
   isAddContactPopupOpened = false;
   constructor(
     private service: DataService,
     private baseDataService: BaseDataService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -66,9 +67,13 @@ export class CompanyDetailsComponent implements OnInit {
     if (this.companyDataLocal) {
       console.log('run 1');
       this.companyId = this.companyDataLocal.companyID;
-      this.loadUserById(this.companyId);
-      this.getUserById(this.companyId);
-      console.log(this.companyId);
+      this.route.paramMap.subscribe((params) => {
+        const paramId = params.get('id')!;
+        this.id = parseInt(paramId, 10);
+      });
+
+      this.loadUserById(this.id);
+      this.getUserById(this.id);
     }
   }
 

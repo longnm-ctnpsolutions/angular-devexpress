@@ -220,6 +220,7 @@ export class EmpPanelComponent
   }
 
   navigateToDetails = () => {
-    this.router.navigate(['/emp-details']);
+    const id = get(this.contactData, 'staffCode');
+    this.router.navigate([`/emp-details/${id}`]);
   };
 }
